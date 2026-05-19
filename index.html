@@ -73,6 +73,21 @@
     </main>
   </div>
 
+  <!-- Article Detail Modal -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <article class="modal" id="modal">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">
+        <span data-zh>✕ 关闭</span>
+        <span data-en>✕ Close</span>
+      </button>
+      <div class="modal-tag" id="modal-tag"></div>
+      <h2 class="modal-title" id="modal-title"></h2>
+      <time class="modal-date" id="modal-date"></time>
+      <div class="modal-divider"></div>
+      <div class="modal-body" id="modal-body"></div>
+    </article>
+  </div>
+
   <script src="content.js"></script>
   <script src="script.js"></script>
 </body>
