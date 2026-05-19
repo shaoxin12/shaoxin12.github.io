@@ -16,7 +16,7 @@ function getRoute() {
   var parts = h.replace(/^\/+/, '').split('/');
   return {
     section: parts[0] || 'life',
-    articleId: parts[1] != null ? parseInt(parts[1]) : null
+    articleId: (parts.length > 1 && parts[1] !== '') ? parseInt(parts[1]) : null
   };
 }
 
@@ -53,6 +53,7 @@ function handleRoute() {
 
 // ── Render Section List ─────────────────────────────────
 function renderSectionList(section) {
+  if (!sectionNames[section]) section = 'life';
   var main = document.getElementById('main-content');
 
   var items = [];
@@ -126,6 +127,7 @@ function renderArticleDetail(section, id) {
 }
 
 function esc(s) {
+  s = s || '';
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
