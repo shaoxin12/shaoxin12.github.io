@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Language toggle (top-right) -->
   <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language">
     <span data-zh>中</span>
     <span class="lang-slash">/</span>
@@ -15,77 +14,33 @@
   </button>
 
   <div class="shell">
-    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-top">
         <div class="brand">
           <span class="brand-dot"></span>
           <span class="brand-name">杨少新</span>
         </div>
-
         <nav class="sidebar-nav">
-          <button class="nav-item active" data-section="life" onclick="switchSection('life')">
+          <button class="nav-item active" data-section="life" onclick="navigateToSection('life')">
             <span class="nav-zh" data-zh>生活</span>
             <span class="nav-en" data-en>Life</span>
           </button>
-          <button class="nav-item" data-section="spec" onclick="switchSection('spec')">
+          <button class="nav-item" data-section="spec" onclick="navigateToSection('spec')">
             <span class="nav-zh" data-zh>投机</span>
             <span class="nav-en" data-en>Spec</span>
           </button>
-          <button class="nav-item" data-section="project" onclick="switchSection('project')">
+          <button class="nav-item" data-section="project" onclick="navigateToSection('project')">
             <span class="nav-zh" data-zh>项目</span>
             <span class="nav-en" data-en>Project</span>
           </button>
         </nav>
       </div>
-
       <div class="sidebar-ver">v0.1.0</div>
     </aside>
 
-    <!-- Main Content -->
-    <main class="main">
-      <section class="section active" id="section-life">
-        <h2 class="section-title">
-          <span data-zh>生活</span>
-          <span data-en>Life</span>
-        </h2>
-        <div class="section-divider"></div>
-        <div class="card-list" id="card-list-life"></div>
-      </section>
-
-      <section class="section" id="section-spec">
-        <h2 class="section-title">
-          <span data-zh>投机</span>
-          <span data-en>Spec</span>
-        </h2>
-        <div class="section-divider"></div>
-        <div class="card-list" id="card-list-spec"></div>
-      </section>
-
-      <section class="section" id="section-project">
-        <h2 class="section-title">
-          <span data-zh>项目</span>
-          <span data-en>Project</span>
-        </h2>
-        <div class="section-divider"></div>
-        <div class="card-list" id="card-list-project"></div>
-      </section>
+    <main class="main" id="main-content">
+      <!-- Rendered by JS -->
     </main>
-  </div>
-
-  <!-- Article Detail Modal -->
-  <div class="modal-overlay" id="modal-overlay">
-    <article class="modal" id="modal">
-      <button class="modal-close" aria-label="Close">
-        <span data-zh>✕ 关闭</span>
-        <span data-en>✕ Close</span>
-      </button>
-      <div class="modal-tag" id="modal-tag"></div>
-      <h2 class="modal-title" id="modal-title"></h2>
-      <time class="modal-date" id="modal-date"></time>
-      <div class="modal-divider"></div>
-      <div class="modal-body" id="modal-body"></div>
-    </article>
   </div>
 
   <script src="content.js"></script>
