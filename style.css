@@ -150,6 +150,12 @@ html, body {
   flex-shrink: 0;
 }
 
+/* In English mode, the EN label is the main text — make it readable */
+html[lang="en"] .nav-en {
+  font-size: 13px;
+  opacity: 1;
+}
+
 .nav-item.active .nav-en {
   opacity: 0.7;
 }
@@ -280,27 +286,6 @@ html[lang="zh-CN"] [data-en] {
 
 html[lang="en"] [data-zh] {
   display: none;
-}
-
-/* When language is English, show en elements as inline/inline-block */
-html[lang="en"] .card-title[data-en] {
-  display: block;
-}
-
-html[lang="en"] .card-desc[data-en] {
-  display: block;
-}
-
-html[lang="en"] .nav-en[data-en] {
-  display: inline;
-}
-
-html[lang="en"] .nav-zh[data-zh] {
-  display: none;
-}
-
-html[lang="zh-CN"] .nav-en[data-en] {
-  display: inline;
 }
 
 /* ── Responsive ───────────────────────────────────────────── */
