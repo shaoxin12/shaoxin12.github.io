@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>杨少新</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Language toggle (top-right) -->
+  <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language">
+    <span data-zh>中</span>
+    <span class="lang-slash">/</span>
+    <span data-en>EN</span>
+  </button>
+
+  <div class="shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <span class="brand-name">杨少新</span>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-section="life" onclick="switchSection('life')">
+            <span class="nav-zh" data-zh>生活</span>
+            <span class="nav-en" data-en>Life</span>
+          </button>
+          <button class="nav-item" data-section="spec" onclick="switchSection('spec')">
+            <span class="nav-zh" data-zh>投机</span>
+            <span class="nav-en" data-en>Spec</span>
+          </button>
+          <button class="nav-item" data-section="project" onclick="switchSection('project')">
+            <span class="nav-zh" data-zh>项目</span>
+            <span class="nav-en" data-en>Project</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="sidebar-ver">v0.1.0</div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <!-- Life Section -->
+      <section class="section active" id="section-life">
+        <h2 class="section-title">
+          <span data-zh>生活</span>
+          <span data-en>Life</span>
+        </h2>
+        <div class="section-divider"></div>
+        <div class="card-list">
+          <article class="card">
+            <h3 class="card-title" data-zh>个人网站上线</h3>
+            <h3 class="card-title" data-en>Personal Website Launched</h3>
+            <time class="card-date" datetime="2026-05-19">2026.05.19</time>
+            <p class="card-desc" data-zh>用新粗野主义风格搭建了自己的个人网站。</p>
+            <p class="card-desc" data-en>Built my personal website in neo-brutalist style.</p>
+          </article>
+          <article class="card">
+            <h3 class="card-title" data-zh>周末骑行深圳湾</h3>
+            <h3 class="card-title" data-en>Weekend Ride at Shenzhen Bay</h3>
+            <time class="card-date" datetime="2026-05-10">2026.05.10</time>
+            <p class="card-desc" data-zh>沿着海岸线骑了四十公里，海风很舒服。</p>
+            <p class="card-desc" data-en>Rode 40km along the coastline, the sea breeze felt great.</p>
+          </article>
+          <article class="card">
+            <h3 class="card-title" data-zh>重新开始写日记</h3>
+            <h3 class="card-title" data-en>Started Journaling Again</h3>
+            <time class="card-date" datetime="2026-04-28">2026.04.28</time>
+            <p class="card-desc" data-zh>每天写一点东西，记录想法和学到的东西。</p>
+            <p class="card-desc" data-en>Writing a bit each day, capturing thoughts and learnings.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Speculation Section -->
+      <section class="section" id="section-spec">
+        <h2 class="section-title">
+          <span data-zh>投机</span>
+          <span data-en>Spec</span>
+        </h2>
+        <div class="section-divider"></div>
+        <div class="card-list">
+          <article class="card">
+            <h3 class="card-title" data-zh>建立交易系统 v1</h3>
+            <h3 class="card-title" data-en>Trading System v1</h3>
+            <time class="card-date" datetime="2026-05-15">2026.05.15</time>
+            <p class="card-desc" data-zh>完成了第一版量化交易系统的搭建，开始回测。</p>
+            <p class="card-desc" data-en>Completed v1 of the quant trading system, started backtesting.</p>
+          </article>
+          <article class="card">
+            <h3 class="card-title" data-zh>五月交易复盘</h3>
+            <h3 class="card-title" data-en>May Trading Review</h3>
+            <time class="card-date" datetime="2026-05-12">2026.05.12</time>
+            <p class="card-desc" data-zh>胜率提升到 65%，止损纪律执行得不错。</p>
+            <p class="card-desc" data-en>Win rate improved to 65%, stop-loss discipline was solid.</p>
+          </article>
+          <article class="card">
+            <h3 class="card-title" data-zh>学习订单流分析</h3>
+            <h3 class="card-title" data-en>Learning Order Flow Analysis</h3>
+            <time class="card-date" datetime="2026-05-08">2026.05.08</time>
+            <p class="card-desc" data-zh>开始研究 footprint chart 和成交量分布。</p>
+            <p class="card-desc" data-en>Started studying footprint charts and volume profile.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Project Section -->
+      <section class="section" id="section-project">
+        <h2 class="section-title">
+          <span data-zh>项目</span>
+          <span data-en>Project</span>
+        </h2>
+        <div class="section-divider"></div>
+        <div class="card-list">
+          <article class="card">
+            <h3 class="card-title">听墨 Tingmo</h3>
+            <time class="card-date" datetime="2026-05">2026.05</time>
+            <p class="card-desc" data-zh>Windows 桌面 AI 语音输入法，Electron + React + TypeScript。</p>
+            <p class="card-desc" data-en>Windows desktop AI voice input method, built with Electron + React + TypeScript.</p>
+          </article>
+          <article class="card">
+            <h3 class="card-title" data-zh>个人网站</h3>
+            <h3 class="card-title" data-en>Personal Website</h3>
+            <time class="card-date" datetime="2026-05">2026.05</time>
+            <p class="card-desc" data-zh>新粗野主义风格静态网站，纯 HTML/CSS/JS。</p>
+            <p class="card-desc" data-en>Neo-brutalist static site, pure HTML/CSS/JS.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
