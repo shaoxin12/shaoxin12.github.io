@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import LogoutButton from '@/components/admin/logout-button';
+import PublishButton from '@/components/admin/publish-button';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -26,6 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           }}>
             + 新建
           </Link>
+          <PublishButton />
           <Link href="/" style={{
             fontSize: '12px', fontWeight: 600, color: '#555', textDecoration: 'none'
           }}>

@@ -23,6 +23,11 @@ html, body, body > div {
   -webkit-font-smoothing: antialiased;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* ── Shell ────────────────────────────────────────────────── */
 .shell {
   display: grid;

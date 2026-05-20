@@ -3,7 +3,7 @@ import CardList from '@/components/card-list';
 import TagsBar from '@/components/tags-bar';
 import { getArticles, getAllTags, getSectionNames } from '@/lib/articles';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ tags: string[] }>;
@@ -11,7 +11,7 @@ interface Props {
 
 export default async function ArticlesTagPage({ params }: Props) {
   const { tags: rawTags } = await params;
-  const tags = rawTags.map(t => decodeURIComponent(t));
+  const tags = rawTags.flatMap(t => decodeURIComponent(t).split('~')).filter(Boolean);
 
   const articles = await getArticles('articles', tags);
   const allTags = await getAllTags();

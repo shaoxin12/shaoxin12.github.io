@@ -21,7 +21,7 @@ export default function TagsBar({ allTags, activeTags }: TagsBarProps) {
       current.push(tagZh);
     }
     if (current.length === 0) return '/articles';
-    return '/articles/tag/' + current.map(encodeURIComponent).join('+');
+    return '/articles/tag/' + current.map(encodeURIComponent).join('~');
   }
 
   return (
