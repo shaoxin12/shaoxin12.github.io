@@ -381,13 +381,18 @@ if (saved) {
 }
 
 function handleRoute() {
-  var r = getRoute();
-  renderSidebar();
+  try {
+    var r = getRoute();
+    renderSidebar();
 
-  if (r.articleId != null) {
-    renderArticleDetail(r.section, r.articleId);
-  } else {
-    renderSectionList(r.section, r.tag);
+    if (r.articleId != null) {
+      renderArticleDetail(r.section, r.articleId);
+    } else {
+      renderSectionList(r.section, r.tag);
+    }
+  } catch (err) {
+    var main = document.getElementById('main-content');
+    if (main) main.innerHTML = '<div style="padding:32px;color:var(--accent);font-family:monospace;"><strong>Error:</strong> ' + err.message + '</div>';
   }
 }
 
