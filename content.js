@@ -1,7 +1,8 @@
 // ══════════════════════════════════════════════════════════
 // 文章内容 — 添加新文章只需复制一条 { } 块
-// section: 'project' | 'spec'
-// body:  正文（可选，不写则在详情页只显示标题+日期+描述）
+// section: 'project' | 'articles'
+// tag:    文章分类标签（仅 articles 需要）
+// body:   正文（可选，不写则详情页只显示标题+日期+描述）
 // ══════════════════════════════════════════════════════════
 
 var articles = [
@@ -35,10 +36,11 @@ var articles = [
     }
   },
 
-  // ── 投机 ──────────────────────────────────────────────
+  // ── 文章 ──────────────────────────────────────────────
   {
-    section: 'spec',
+    section: 'articles',
     date: '2026-05-15',
+    tag: { zh: '交易', en: 'Trading' },
     zh: {
       title: '建立交易系统 v1',
       desc: '完成了第一版量化交易系统的搭建，开始回测历史数据。',
@@ -51,8 +53,9 @@ var articles = [
     }
   },
   {
-    section: 'spec',
+    section: 'articles',
     date: '2026-05-12',
+    tag: { zh: '交易', en: 'Trading' },
     zh: {
       title: '五月交易复盘',
       desc: '胜率提升到 65%，止损纪律执行得不错，继续优化。',
@@ -65,8 +68,9 @@ var articles = [
     }
   },
   {
-    section: 'spec',
+    section: 'articles',
     date: '2026-05-08',
+    tag: { zh: '交易', en: 'Trading' },
     zh: {
       title: '学习订单流分析',
       desc: '开始研究 footprint chart 和成交量分布，打开了新世界。',

@@ -153,15 +153,34 @@ html[lang="en"] .nav-en {
   opacity: 1;
 }
 
-.sidebar-ver {
+.sidebar-footer {
   padding: 14px 14px 0;
   margin: 0 12px;
   border-top: 2px solid var(--black);
+}
+
+.sidebar-ver {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.06em;
   font-family: var(--font-mono);
   color: var(--gray);
+}
+
+.sidebar-email {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--gray);
+  text-decoration: none;
+  margin-top: 8px;
+  letter-spacing: 0.03em;
+  word-break: break-all;
+}
+
+.sidebar-email:hover {
+  color: var(--accent);
 }
 
 /* ── Main Content ─────────────────────────────────────────── */
@@ -242,6 +261,18 @@ html[lang="en"] .nav-en {
   transform: translate(4px, 4px);
 }
 
+.card-tag {
+  display: inline-block;
+  background: var(--black);
+  color: var(--white);
+  padding: 1px 7px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
 .card-title {
   font-size: 18px;
   font-weight: 800;
@@ -301,6 +332,12 @@ html[lang="en"] .nav-en {
   transform: translate(2px, 2px);
 }
 
+.article-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
 .article-tag {
   display: inline-block;
   background: var(--black);
@@ -310,7 +347,17 @@ html[lang="en"] .nav-en {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+}
+
+.article-cat-tag {
+  display: inline-block;
+  border: 2px solid var(--black);
+  background: var(--white);
+  color: var(--black);
+  padding: 1px 9px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
 
 .article-header {
@@ -438,6 +485,8 @@ html[lang="en"] [data-zh] { display: none; }
   }
 
   .sidebar-ver { display: none; }
+  .sidebar-email { display: none; }
+  .sidebar-footer { padding: 0; margin: 0; border-top: none; }
 
   .main {
     flex: 1;
@@ -459,6 +508,7 @@ html[lang="en"] [data-zh] { display: none; }
   }
 
   .card-title { font-size: 16px; }
+  .card-tag { font-size: 8px; padding: 1px 6px; }
   .card-desc { font-size: 13px; }
 
   .article-detail { max-width: 100%; }

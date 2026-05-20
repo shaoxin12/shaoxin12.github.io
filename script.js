@@ -5,8 +5,8 @@ for (var i = 0; i < articles.length; i++) {
 }
 
 var sectionNames = {
-  project: { zh: '项目', en: 'Project' },
-  spec:    { zh: '投机', en: 'Spec' }
+  project:  { zh: '项目', en: 'Project' },
+  articles: { zh: '文章', en: 'Articles' }
 };
 
 // ── Routing ─────────────────────────────────────────────
@@ -63,7 +63,15 @@ function renderSectionList(section) {
   var cards = '';
   for (var j = 0; j < items.length; j++) {
     var a = items[j];
+    var tagHtml = '';
+    if (a.tag) {
+      tagHtml = '<span class="card-tag">' +
+        '<span data-zh>' + esc(a.tag.zh) + '</span>' +
+        '<span data-en>' + esc(a.tag.en) + '</span>' +
+      '</span>';
+    }
     cards += '<article class="card" onclick="openArticle(\'' + section + '\', ' + a._id + ')">' +
+      tagHtml +
       '<h3 class="card-title">' +
         '<span data-zh>' + esc(a.zh.title) + '</span>' +
         '<span data-en>' + esc(a.en.title) + '</span>' +
@@ -101,15 +109,26 @@ function renderArticleDetail(section, id) {
   var bodyZh = a.zh.body || a.zh.desc;
   var bodyEn = a.en.body || a.en.desc;
 
+  var detailTagHtml = '';
+  if (a.tag) {
+    detailTagHtml = '<span class="article-cat-tag">' +
+      '<span data-zh>' + esc(a.tag.zh) + '</span>' +
+      '<span data-en>' + esc(a.tag.en) + '</span>' +
+    '</span>';
+  }
+
   document.getElementById('main-content').innerHTML =
     '<div class="article-detail active">' +
       '<button class="article-back" onclick="goBack()">← ' +
         '<span data-zh>返回</span>' +
         '<span data-en>Back</span>' +
       '</button>' +
-      '<div class="article-tag">' +
-        '<span data-zh>' + sectionNames[section].zh + '</span>' +
-        '<span data-en>' + sectionNames[section].en + '</span>' +
+      '<div class="article-tags">' +
+        '<span class="article-tag">' +
+          '<span data-zh>' + sectionNames[section].zh + '</span>' +
+          '<span data-en>' + sectionNames[section].en + '</span>' +
+        '</span>' +
+        detailTagHtml +
       '</div>' +
       '<h1 class="article-header">' +
         '<span data-zh>' + esc(a.zh.title) + '</span>' +
