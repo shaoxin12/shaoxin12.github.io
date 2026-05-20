@@ -58,11 +58,18 @@ function generateArticlesJSON(articles: Article[]): string {
   return lines.join('\n');
 }
 
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { readFileSync, existsSync } from 'fs';
+import { join, resolve } from 'path';
 
 function readStaticFile(filename: string): string {
-  return readFileSync(join(process.cwd(), filename), 'utf-8');
+  const paths = [
+    join(process.cwd(), filename),
+    resolve('.' + '/' + filename),
+  ];
+  for (const p of paths) {
+    if (existsSync(p)) return readFileSync(p, 'utf-8');
+  }
+  throw new Error(`Cannot find ${filename}. cwd: ${process.cwd()}`);
 }
 
 export async function buildStaticHTML(): Promise<{ html: string; css: string }> {
