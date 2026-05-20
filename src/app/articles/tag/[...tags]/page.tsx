@@ -3,7 +3,10 @@ import CardList from '@/components/card-list';
 import TagsBar from '@/components/tags-bar';
 import { getArticles, getAllTags, getSectionNames } from '@/lib/articles';
 
-export const revalidate = 3600;
+export async function generateStaticParams() {
+  const allTags = await getAllTags();
+  return allTags.map(t => ({ tags: [encodeURIComponent(t.zh)] }));
+}
 
 interface Props {
   params: Promise<{ tags: string[] }>;

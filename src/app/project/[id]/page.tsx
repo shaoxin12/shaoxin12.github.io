@@ -1,9 +1,12 @@
 import Shell from '@/components/shell';
 import ArticleDetail from '@/components/article-detail';
-import { getArticle, getSectionNames } from '@/lib/articles';
+import { getArticle, getArticles, getSectionNames } from '@/lib/articles';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 3600;
+export async function generateStaticParams() {
+  const articles = await getArticles('project');
+  return articles.map(a => ({ id: String(a.id) }));
+}
 
 interface Props {
   params: Promise<{ id: string }>;
