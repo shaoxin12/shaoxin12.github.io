@@ -154,34 +154,39 @@ html[lang="en"] .nav-en {
 }
 
 .sidebar-footer {
-  padding: 14px 14px 0;
+  padding: 14px 12px 0;
   margin: 0 12px;
   border-top: 2px solid var(--black);
 }
 
-.sidebar-ver {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  font-family: var(--font-mono);
-  color: var(--gray);
-}
-
 .sidebar-email {
   display: block;
-  font-size: 9px;
-  font-weight: 700;
+  width: 100%;
+  border: 2px solid var(--black);
+  border-radius: 0;
+  background: var(--white);
   font-family: var(--font-mono);
-  color: var(--gray);
-  text-decoration: none;
-  margin-top: 8px;
-  letter-spacing: 0.02em;
-  overflow-wrap: break-word;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--black);
+  cursor: pointer;
+  padding: 8px 6px;
+  text-align: center;
+  box-shadow: 2px 2px 0 var(--black);
+  transition: box-shadow 0.08s, transform 0.08s, background 0.08s;
+  word-break: break-all;
 }
 
-.sidebar-email:hover {
-  color: var(--accent);
-  text-decoration: underline;
+.sidebar-email:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+.copy-hint {
+  display: block;
+  font-size: 8px;
+  opacity: 0.4;
+  margin-top: 3px;
 }
 
 /* Mobile email footer (hidden on desktop) */
@@ -397,6 +402,24 @@ html[lang="en"] .nav-en {
   word-break: break-word;
 }
 
+/* ── Copy Toast ──────────────────────────────────────────── */
+#copy-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  border: 2px solid var(--black);
+  background: var(--black);
+  color: var(--white);
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 3px 3px 0 var(--black);
+}
+
 /* ── Comments ─────────────────────────────────────────────── */
 .comments-section {
   margin-top: 48px;
@@ -508,29 +531,43 @@ html[lang="en"] [data-zh] { display: none; }
     display: block !important;
   }
 
-  .sidebar-ver { display: none; }
-  .sidebar-email { display: none; }
   .sidebar-footer { padding: 0; margin: 0; border-top: none; }
+  .sidebar-email { display: none; }
 
   /* Show email at bottom of page on mobile */
   .mobile-email {
     display: block;
     text-align: center;
-    padding: 16px;
+    padding: 12px 16px;
     border-top: 2px solid var(--black);
     background: var(--white);
   }
 
-  .mobile-email a {
+  .mobile-email button {
+    display: inline-block;
+    border: 2px solid var(--black);
+    border-radius: 0;
+    background: var(--white);
+    font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 700;
-    font-family: var(--font-mono);
-    color: var(--gray);
-    text-decoration: none;
-    letter-spacing: 0.03em;
+    color: var(--black);
+    cursor: pointer;
+    padding: 8px 14px;
+    box-shadow: 2px 2px 0 var(--black);
   }
 
-  .mobile-email a:hover { color: var(--accent); }
+  .mobile-email button:active {
+    box-shadow: none;
+    transform: translate(2px, 2px);
+  }
+
+  .mobile-email .copy-hint {
+    display: block;
+    font-size: 8px;
+    opacity: 0.4;
+    margin-top: 2px;
+  }
 
   .main {
     flex: 1;

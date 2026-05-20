@@ -31,8 +31,11 @@
         </nav>
       </div>
       <div class="sidebar-footer">
-        <div class="sidebar-ver">v0.1.0</div>
-        <a class="sidebar-email" href="mailto:yangshaoxin12@gmail.com">yangshaoxin12@gmail.com</a>
+        <button class="sidebar-email" onclick="copyEmail()" title="点击复制邮箱">
+          yangshaoxin12@gmail.com
+          <span class="copy-hint" data-zh>点击复制</span>
+          <span class="copy-hint" data-en>Click to copy</span>
+        </button>
       </div>
     </aside>
 
@@ -42,7 +45,11 @@
 
     <!-- Mobile-only email footer, hidden on desktop -->
     <div class="mobile-email">
-      <a href="mailto:yangshaoxin12@gmail.com">yangshaoxin12@gmail.com</a>
+      <button onclick="copyEmail()">
+        yangshaoxin12@gmail.com
+        <span class="copy-hint" data-zh>点击复制</span>
+        <span class="copy-hint" data-en>Click to copy</span>
+      </button>
     </div>
   </div>
 

@@ -182,6 +182,44 @@ function esc(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+// ── Copy Email ───────────────────────────────────────────
+function copyEmail() {
+  var email = 'yangshaoxin12@gmail.com';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(function() {
+      showCopyToast();
+    }).catch(function() {
+      fallbackCopy(email);
+    });
+  } else {
+    fallbackCopy(email);
+  }
+}
+
+function fallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  showCopyToast();
+}
+
+function showCopyToast() {
+  var toast = document.getElementById('copy-toast');
+  if (toast) { toast.remove(); }
+  toast = document.createElement('div');
+  toast.id = 'copy-toast';
+  toast.innerHTML =
+    '<span data-zh>已复制到剪贴板</span>' +
+    '<span data-en>Copied to clipboard</span>';
+  document.body.appendChild(toast);
+  setTimeout(function() { toast.remove(); }, 1500);
+}
+
 // ── Language Toggle ─────────────────────────────────────
 var currentLang = 'zh-CN';
 
