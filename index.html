@@ -11,8 +11,10 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-top">
         <div class="brand">
-          <span class="brand-dot"></span>
-          <span class="brand-name">杨少新</span>
+          <button class="brand-btn" onclick="navigateHome()" aria-label="Home">
+            <span class="brand-dot"></span>
+            <span class="brand-name">杨少新</span>
+          </button>
           <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language">
             <span data-zh>中</span>
             <span class="lang-slash">/</span>
@@ -167,22 +169,37 @@ for (var i = 0; i < articles.length; i++) {
 
 // ── Routing ─────────────────────────────────────────────
 function getRoute() {
-  var h = location.hash.replace('#', '') || '/project';
+  var h = location.hash.replace('#', '') || '/';
   var parts = h.replace(/^\/+/, '').split('/');
 
   var route = {
-    section: parts[0] || 'project',
+    home: false,
+    section: null,
     articleId: null,
-    tag: null
+    tags: []
   };
 
+  // Home page (empty hash or just "/")
+  if (!parts[0] || parts[0] === '') {
+    route.home = true;
+    return route;
+  }
+
+  route.section = parts[0] || 'project';
+
+  // Multi-tag filter: /articles/tag/交易+哲学
   if (parts.length >= 3 && parts[1] === 'tag') {
-    route.tag = decodeURIComponent(parts[2]);
+    var raw = decodeURIComponent(parts[2]);
+    route.tags = raw ? raw.split('+') : [];
   } else if (parts.length > 1 && parts[1] !== '') {
     route.articleId = parseInt(parts[1]);
   }
 
   return route;
+}
+
+function navigateHome() {
+  location.hash = '';
 }
 
 function navigateToSection(section) {
@@ -193,13 +210,25 @@ function filterByTag(tagZh) {
   location.hash = '/articles/tag/' + encodeURIComponent(tagZh);
 }
 
-function clearTagFilter() {
-  location.hash = '/articles';
+function toggleTag(tagZh) {
+  var r = getRoute();
+  var tags = r.tags ? r.tags.slice() : [];
+  var idx = tags.indexOf(tagZh);
+  if (idx >= 0) {
+    tags.splice(idx, 1);
+  } else {
+    tags.push(tagZh);
+  }
+  if (tags.length > 0) {
+    location.hash = '/articles/tag/' + encodeURIComponent(tags.join('+'));
+  } else {
+    location.hash = '/articles';
+  }
 }
 
 // ── Event Delegation (order matters: specific → general) ──
 document.addEventListener('click', function(e) {
-  // 1. Tag badge on card — filter, don't open article
+  // 1. Tag badge on card — single-tag filter, don't open article
   var cardTag = e.target.closest('.card-tag');
   if (cardTag) {
     e.preventDefault();
@@ -250,24 +279,53 @@ document.addEventListener('click', function(e) {
   // 6. Back button
   if (e.target.closest('.article-back')) {
     var r = getRoute();
-    location.hash = '/' + r.section + (r.tag ? '/tag/' + encodeURIComponent(r.tag) : '');
+    if (r.tags && r.tags.length > 0) {
+      location.hash = '/' + r.section + '/tag/' + encodeURIComponent(r.tags.join('+'));
+    } else {
+      location.hash = '/' + r.section;
+    }
     return;
   }
 
-  // 7. Clear filter
-  if (e.target.closest('.filter-clear')) {
-    clearTagFilter();
-    return;
-  }
-
-  // 8. Tags bar item
+  // 7. Tags bar item — multi-select toggle
   var tbi = e.target.closest('.tags-bar-item');
   if (tbi) {
     var tzh2 = tbi.getAttribute('data-tag-zh');
-    if (tzh2) filterByTag(tzh2);
+    if (tzh2) toggleTag(tzh2);
     return;
   }
 });
+
+// ── Render Home Page ─────────────────────────────────────
+function renderHome() {
+  var main = document.getElementById('main-content');
+  main.innerHTML =
+    '<section class="section active home-section">' +
+      '<div class="home-hero">' +
+        '<h1 class="home-name">杨少新</h1>' +
+        '<p class="home-tagline">' +
+          '<span data-zh>构建、交易、写作</span>' +
+          '<span data-en>Build, Trade, Write</span>' +
+        '</p>' +
+      '</div>' +
+      '<div class="home-cards">' +
+        '<button class="home-card" onclick="navigateToSection(\'project\')">' +
+          '<span class="home-card-arrow">→</span>' +
+          '<span class="home-card-title" data-zh>项目</span>' +
+          '<span class="home-card-title" data-en>Project</span>' +
+          '<span class="home-card-sub" data-zh>作品与实验</span>' +
+          '<span class="home-card-sub" data-en>Works &amp; Experiments</span>' +
+        '</button>' +
+        '<button class="home-card" onclick="navigateToSection(\'articles\')">' +
+          '<span class="home-card-arrow">→</span>' +
+          '<span class="home-card-title" data-zh>文章</span>' +
+          '<span class="home-card-title" data-en>Articles</span>' +
+          '<span class="home-card-sub" data-zh>交易笔记与思考</span>' +
+          '<span class="home-card-sub" data-en>Trading Notes &amp; Thoughts</span>' +
+        '</button>' +
+      '</div>' +
+    '</section>';
+}
 
 // ── Render Sidebar Accordion ─────────────────────────────
 function renderSidebar() {
@@ -301,22 +359,13 @@ function renderSidebar() {
 
     for (var j = 0; j < items.length; j++) {
       var sub = items[j];
-      var subTags = '';
-      if (sub.tags) {
-        for (var t = 0; t < sub.tags.length; t++) {
-          subTags += '<span class="sub-tag">' +
-            '<span data-zh>' + esc(sub.tags[t].zh) + '</span>' +
-            '<span data-en>' + esc(sub.tags[t].en) + '</span>' +
-          '</span>';
-        }
-      }
-      html += '<button class="sub-item" data-section="' + key + '" data-id="' + sub._id + '">' +
+      var isActiveSub = r.articleId != null && r.articleId === sub._id && r.section === key;
+
+      html += '<button class="sub-item' + (isActiveSub ? ' active' : '') + '" data-section="' + key + '" data-id="' + sub._id + '">' +
         '<span class="sub-item-title">' +
           '<span data-zh>' + esc(sub.zh.title) + '</span>' +
           '<span data-en>' + esc(sub.en.title) + '</span>' +
         '</span>' +
-        '<span class="sub-date">' + sub.date + '</span>' +
-        subTags +
       '</button>';
     }
 
@@ -327,18 +376,19 @@ function renderSidebar() {
 }
 
 // ── Render Section List ─────────────────────────────────
-function renderSectionList(section, tag) {
+function renderSectionList(section, tags) {
   if (!sectionNames[section]) section = 'project';
   var main = document.getElementById('main-content');
 
   var items = [];
   for (var i = 0; i < articles.length; i++) {
     if (articles[i].section !== section) continue;
-    if (tag) {
+    // Multi-tag filter: article must have at least one selected tag
+    if (tags && tags.length > 0) {
       var hasTag = false;
       if (articles[i].tags) {
         for (var t = 0; t < articles[i].tags.length; t++) {
-          if (articles[i].tags[t].zh === tag) { hasTag = true; break; }
+          if (tags.indexOf(articles[i].tags[t].zh) >= 0) { hasTag = true; break; }
         }
       }
       if (!hasTag) continue;
@@ -347,33 +397,16 @@ function renderSectionList(section, tag) {
   }
   items.sort(function(a, b) { return b.date > a.date ? 1 : -1; });
 
-  // Filter bar
-  var filterHtml = '';
-  if (tag) {
-    var tagObj = allTags[tag] || { zh: tag, en: tag };
-    filterHtml = '<div class="filter-bar">' +
-      '<span data-zh>筛选：</span>' +
-      '<span data-en>Filter: </span>' +
-      '<span class="filter-tag">' +
-        '<span data-zh>' + esc(tagObj.zh) + '</span>' +
-        '<span data-en>' + esc(tagObj.en) + '</span>' +
-      '</span>' +
-      '<button class="filter-clear">✕ ' +
-        '<span data-zh>清除</span>' +
-        '<span data-en>Clear</span>' +
-      '</button>' +
-    '</div>';
-  }
-
-  // Tags bar (only for articles section when not filtering)
+  // Tags bar — always visible for articles section (multi-select)
   var tagsBar = '';
-  if (!tag && section === 'articles') {
+  if (section === 'articles') {
     var tagKeys = Object.keys(allTags).sort();
     if (tagKeys.length > 0) {
       tagsBar = '<div class="tags-bar">';
       for (var ti = 0; ti < tagKeys.length; ti++) {
         var tObj = allTags[tagKeys[ti]];
-        tagsBar += '<button class="tags-bar-item" data-tag-zh="' + esc(tObj.zh) + '">' +
+        var isActive = tags && tags.indexOf(tObj.zh) >= 0;
+        tagsBar += '<button class="tags-bar-item' + (isActive ? ' active' : '') + '" data-tag-zh="' + esc(tObj.zh) + '">' +
           '<span data-zh>' + esc(tObj.zh) + '</span>' +
           '<span data-en>' + esc(tObj.en) + '</span>' +
         '</button>';
@@ -417,7 +450,6 @@ function renderSectionList(section, tag) {
       '</h2>' +
       '<div class="section-divider"></div>' +
       tagsBar +
-      filterHtml +
       '<div class="card-list">' + (cards || '<p class="empty-msg"><span data-zh>没有匹配的文章</span><span data-en>No matching articles</span></p>') + '</div>' +
     '</section>';
 }
@@ -531,10 +563,12 @@ function handleRoute() {
     var r = getRoute();
     renderSidebar();
 
-    if (r.articleId != null) {
+    if (r.home) {
+      renderHome();
+    } else if (r.articleId != null) {
       renderArticleDetail(r.section, r.articleId);
     } else {
-      renderSectionList(r.section, r.tag);
+      renderSectionList(r.section, r.tags);
     }
   } catch (err) {
     var main = document.getElementById('main-content');
