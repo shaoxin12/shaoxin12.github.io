@@ -353,12 +353,12 @@ html[lang="en"] [data-zh] { display: none; }
    ═════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  /* Lang toggle: move into sidebar flow from fixed */
+  /* Lang toggle: fixed top-right on mobile too */
   .lang-toggle {
-    position: static;
-    z-index: auto;
-    margin-left: auto;
-    flex-shrink: 0;
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 100;
     padding: 5px 8px;
     font-size: 10px;
     box-shadow: 2px 2px 0 var(--black);
@@ -376,7 +376,7 @@ html[lang="en"] [data-zh] { display: none; }
     align-items: center;
     border-right: none;
     border-bottom: 3px solid var(--black);
-    padding: 10px 12px;
+    padding: 14px 80px 12px 12px;  /* right padding for fixed lang toggle */
     gap: 0;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
