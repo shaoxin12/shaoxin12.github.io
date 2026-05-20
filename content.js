@@ -1,8 +1,8 @@
 // ══════════════════════════════════════════════════════════
 // 文章内容 — 添加新文章只需复制一条 { } 块
 // section: 'project' | 'articles'
-// tag:    文章分类标签（仅 articles 需要）
-// body:   正文（可选，不写则详情页只显示标题+日期+描述）
+// tags:   文章分类标签（数组，可有多个）
+// body:   正文（可选）
 // ══════════════════════════════════════════════════════════
 
 var articles = [
@@ -40,7 +40,7 @@ var articles = [
   {
     section: 'articles',
     date: '2026-05-15',
-    tag: { zh: '交易', en: 'Trading' },
+    tags: [{ zh: '交易', en: 'Trading' }],
     zh: {
       title: '建立交易系统 v1',
       desc: '完成了第一版量化交易系统的搭建，开始回测历史数据。',
@@ -55,7 +55,7 @@ var articles = [
   {
     section: 'articles',
     date: '2026-05-12',
-    tag: { zh: '交易', en: 'Trading' },
+    tags: [{ zh: '交易', en: 'Trading' }, { zh: '哲学', en: 'Philosophy' }],
     zh: {
       title: '五月交易复盘',
       desc: '胜率提升到 65%，止损纪律执行得不错，继续优化。',
@@ -70,7 +70,7 @@ var articles = [
   {
     section: 'articles',
     date: '2026-05-08',
-    tag: { zh: '交易', en: 'Trading' },
+    tags: [{ zh: '交易', en: 'Trading' }],
     zh: {
       title: '学习订单流分析',
       desc: '开始研究 footprint chart 和成交量分布，打开了新世界。',
@@ -80,6 +80,21 @@ var articles = [
       title: 'Learning Order Flow Analysis',
       desc: 'Started studying footprint charts and volume profile.',
       body: 'Used to just look at candlesticks, this week started learning order flow. Footprint charts show buy vs sell volume at each price level, volume profile shows where the most trading happens.\n\nThe biggest insight: what looks like a "high volume breakout" on candlesticks could be a complete fake-out on footprint — just a bunch of passive sell orders getting eaten.\n\nWatching Axia Futures courses. Recommended for anyone doing intraday trading.'
+    }
+  },
+  {
+    section: 'articles',
+    date: '2026-05-05',
+    tags: [{ zh: '哲学', en: 'Philosophy' }],
+    zh: {
+      title: '斯多葛主义的交易启示',
+      desc: '控制能控制的，接受不能控制的——从古老哲学汲取交易智慧。',
+      body: '最近重读了 Epictetus 的《手册》，突然意识到这和交易的底层逻辑完全相通。\n\n斯多葛主义的核心：区分你能控制的和不能控制的。你能控制自己的想法和行动，不能控制外部事件。\n\n映射到交易上：\n- 能控制的：进场逻辑、仓位大小、止损位置、复盘频率\n- 不能控制的：市场方向、新闻事件、他人情绪\n\n把精力 100% 放在能控制的事情上，对不能控制的结果保持坦然。每次亏损不再是"市场错了"，而是"我的哪部分执行出了问题"。\n\n这种思维转变之后，心态稳了很多。推荐每个交易者都读一读斯多葛。'
+    },
+    en: {
+      title: 'Stoic Lessons for Trading',
+      desc: 'Control what you can, accept what you can\'t — ancient wisdom meets modern trading.',
+      body: 'Recently re-read Epictetus\'s Enchiridion and suddenly realized how deeply this connects to trading.\n\nThe core of Stoicism: distinguish between what you can and cannot control. You control your thoughts and actions, not external events.\n\nApplied to trading:\n- In your control: entry logic, position size, stop-loss placement, review frequency\n- Not in your control: market direction, news events, other people\'s emotions\n\nPut 100% of your energy into what you can control, and stay calm about outcomes you can\'t. Every loss stops being "the market was wrong" and becomes "which part of my execution failed."\n\nAfter this mental shift, my mindset has been much more stable. Recommend every trader read the Stoics.'
     }
   }
 ];

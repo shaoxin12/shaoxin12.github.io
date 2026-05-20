@@ -9,11 +9,15 @@ var sectionNames = {
   articles: { zh: '文章', en: 'Articles' }
 };
 
-// ── Collect all tags ────────────────────────────────────
+// ── Collect all tags across articles ────────────────────
 var allTags = {};
 for (var i = 0; i < articles.length; i++) {
-  var t = articles[i].tag;
-  if (t) { allTags[t.zh] = t; }
+  var tags = articles[i].tags;
+  if (tags) {
+    for (var j = 0; j < tags.length; j++) {
+      allTags[tags[j].zh] = tags[j];
+    }
+  }
 }
 
 // ── Routing ─────────────────────────────────────────────
@@ -27,10 +31,8 @@ function getRoute() {
     tag: null
   };
 
-  // Check for tag filter: /articles/tag/交易
   if (parts.length >= 3 && parts[1] === 'tag') {
     route.tag = decodeURIComponent(parts[2]);
-    route.articleId = null;
   } else if (parts.length > 1 && parts[1] !== '') {
     route.articleId = parseInt(parts[1]);
   }
@@ -42,15 +44,6 @@ function navigateToSection(section) {
   location.hash = '/' + section;
 }
 
-function openArticle(section, id) {
-  location.hash = '/' + section + '/' + id;
-}
-
-function goBack() {
-  var r = getRoute();
-  location.hash = '/' + r.section + (r.tag ? '/tag/' + encodeURIComponent(r.tag) : '');
-}
-
 function filterByTag(tagZh) {
   location.hash = '/articles/tag/' + encodeURIComponent(tagZh);
 }
@@ -59,27 +52,38 @@ function clearTagFilter() {
   location.hash = '/articles';
 }
 
-// ── Event Delegation ────────────────────────────────────
+// ── Event Delegation (order matters: specific → general) ──
 document.addEventListener('click', function(e) {
-  // Card click
-  var card = e.target.closest('.card');
-  if (card) {
-    var id = parseInt(card.getAttribute('data-article-id'));
-    var section = card.getAttribute('data-section');
-    if (!isNaN(id) && section) openArticle(section, id);
+  // 1. Tag badge on card — filter, don't open article
+  var cardTag = e.target.closest('.card-tag');
+  if (cardTag) {
+    e.preventDefault();
+    var tzh = cardTag.getAttribute('data-tag-zh');
+    if (tzh) filterByTag(tzh);
     return;
   }
 
-  // Sidebar sub-item click
+  // 2. Tag badge in article detail
+  var detailTag = e.target.closest('.article-cat-tag');
+  if (detailTag) {
+    e.preventDefault();
+    var dtzh = detailTag.getAttribute('data-tag-zh');
+    if (dtzh) filterByTag(dtzh);
+    return;
+  }
+
+  // 3. Sidebar sub-item
   var sub = e.target.closest('.sub-item');
   if (sub) {
     var sid = parseInt(sub.getAttribute('data-id'));
     var ssection = sub.getAttribute('data-section');
-    if (!isNaN(sid) && ssection) openArticle(ssection, sid);
+    if (!isNaN(sid) && ssection) {
+      location.hash = '/' + ssection + '/' + sid;
+    }
     return;
   }
 
-  // Sidebar nav toggle click
+  // 4. Sidebar nav toggle button
   var navToggle = e.target.closest('.nav-item');
   if (navToggle) {
     var s = navToggle.getAttribute('data-section');
@@ -87,62 +91,63 @@ document.addEventListener('click', function(e) {
     return;
   }
 
-  // Tag badge click on card
-  var tagBadge = e.target.closest('.card-tag');
-  if (tagBadge) {
-    e.stopPropagation(); // prevent card click
-    var tzh = tagBadge.getAttribute('data-tag-zh');
-    if (tzh) filterByTag(tzh);
+  // 5. Card click — open article
+  var card = e.target.closest('.card');
+  if (card) {
+    var id = parseInt(card.getAttribute('data-article-id'));
+    var section = card.getAttribute('data-section');
+    if (!isNaN(id) && section) {
+      location.hash = '/' + section + '/' + id;
+    }
     return;
   }
 
-  // Tag badge click in article detail
-  var detailTag = e.target.closest('.article-cat-tag');
-  if (detailTag) {
-    var dtzh = detailTag.getAttribute('data-tag-zh');
-    if (dtzh) filterByTag(dtzh);
-    return;
-  }
-
-  // Back button
+  // 6. Back button
   if (e.target.closest('.article-back')) {
-    goBack();
+    var r = getRoute();
+    location.hash = '/' + r.section + (r.tag ? '/tag/' + encodeURIComponent(r.tag) : '');
     return;
   }
 
-  // Clear filter
-  var clearBtn = e.target.closest('.filter-clear');
-  if (clearBtn) {
+  // 7. Clear filter
+  if (e.target.closest('.filter-clear')) {
     clearTagFilter();
+    return;
+  }
+
+  // 8. Tags bar item
+  var tbi = e.target.closest('.tags-bar-item');
+  if (tbi) {
+    var tzh2 = tbi.getAttribute('data-tag-zh');
+    if (tzh2) filterByTag(tzh2);
     return;
   }
 });
 
-// ── Render Sidebar ──────────────────────────────────────
+// ── Render Sidebar Accordion ─────────────────────────────
 function renderSidebar() {
   var nav = document.getElementById('sidebar-nav');
   if (!nav) return;
 
   var r = getRoute();
   var html = '';
-
   var order = ['project', 'articles'];
+
   for (var k = 0; k < order.length; k++) {
     var key = order[k];
     var sn = sectionNames[key];
 
-    // Get articles for this section
     var items = [];
     for (var i = 0; i < articles.length; i++) {
       if (articles[i].section === key) items.push(articles[i]);
     }
     items.sort(function(a, b) { return b.date > a.date ? 1 : -1; });
 
-    var isActive = r.section === key;
+    var isOpen = r.section === key;
 
-    html += '<div class="nav-group' + (isActive ? ' open' : '') + '">' +
-      '<button class="nav-item' + (isActive ? ' active' : '') + '" data-section="' + key + '">' +
-        '<span class="nav-arrow">' + (isActive ? '▼' : '▶') + '</span>' +
+    html += '<div class="nav-group' + (isOpen ? ' open' : '') + '">' +
+      '<button class="nav-item' + (isOpen ? ' active' : '') + '" data-section="' + key + '">' +
+        '<span class="nav-arrow">' + (isOpen ? '▾' : '▸') + '</span>' +
         '<span class="nav-zh" data-zh>' + sn.zh + '</span>' +
         '<span class="nav-en" data-en>' + sn.en + '</span>' +
         '<span class="nav-count">' + items.length + '</span>' +
@@ -151,10 +156,22 @@ function renderSidebar() {
 
     for (var j = 0; j < items.length; j++) {
       var sub = items[j];
+      var subTags = '';
+      if (sub.tags) {
+        for (var t = 0; t < sub.tags.length; t++) {
+          subTags += '<span class="sub-tag">' +
+            '<span data-zh>' + esc(sub.tags[t].zh) + '</span>' +
+            '<span data-en>' + esc(sub.tags[t].en) + '</span>' +
+          '</span>';
+        }
+      }
       html += '<button class="sub-item" data-section="' + key + '" data-id="' + sub._id + '">' +
-        '<span data-zh>' + esc(sub.zh.title) + '</span>' +
-        '<span data-en>' + esc(sub.en.title) + '</span>' +
+        '<span class="sub-item-title">' +
+          '<span data-zh>' + esc(sub.zh.title) + '</span>' +
+          '<span data-en>' + esc(sub.en.title) + '</span>' +
+        '</span>' +
         '<span class="sub-date">' + sub.date + '</span>' +
+        subTags +
       '</button>';
     }
 
@@ -172,12 +189,20 @@ function renderSectionList(section, tag) {
   var items = [];
   for (var i = 0; i < articles.length; i++) {
     if (articles[i].section !== section) continue;
-    if (tag && (!articles[i].tag || articles[i].tag.zh !== tag)) continue;
+    if (tag) {
+      var hasTag = false;
+      if (articles[i].tags) {
+        for (var t = 0; t < articles[i].tags.length; t++) {
+          if (articles[i].tags[t].zh === tag) { hasTag = true; break; }
+        }
+      }
+      if (!hasTag) continue;
+    }
     items.push(articles[i]);
   }
   items.sort(function(a, b) { return b.date > a.date ? 1 : -1; });
 
-  // Filter header
+  // Filter bar
   var filterHtml = '';
   if (tag) {
     var tagObj = allTags[tag] || { zh: tag, en: tag };
@@ -195,15 +220,15 @@ function renderSectionList(section, tag) {
     '</div>';
   }
 
-  // Tags bar (only for articles section, not when filtering)
+  // Tags bar (only for articles section when not filtering)
   var tagsBar = '';
   if (!tag && section === 'articles') {
     var tagKeys = Object.keys(allTags).sort();
     if (tagKeys.length > 0) {
       tagsBar = '<div class="tags-bar">';
-      for (var t = 0; t < tagKeys.length; t++) {
-        var tObj = allTags[tagKeys[t]];
-        tagsBar += '<button class="tags-bar-item" onclick="filterByTag(\'' + esc(tObj.zh) + '\')">' +
+      for (var ti = 0; ti < tagKeys.length; ti++) {
+        var tObj = allTags[tagKeys[ti]];
+        tagsBar += '<button class="tags-bar-item" data-tag-zh="' + esc(tObj.zh) + '">' +
           '<span data-zh>' + esc(tObj.zh) + '</span>' +
           '<span data-en>' + esc(tObj.en) + '</span>' +
         '</button>';
@@ -212,15 +237,18 @@ function renderSectionList(section, tag) {
     }
   }
 
+  // Cards
   var cards = '';
   for (var j = 0; j < items.length; j++) {
     var a = items[j];
     var tagHtml = '';
-    if (a.tag) {
-      tagHtml = '<span class="card-tag" data-tag-zh="' + esc(a.tag.zh) + '">' +
-        '<span data-zh>' + esc(a.tag.zh) + '</span>' +
-        '<span data-en>' + esc(a.tag.en) + '</span>' +
-      '</span>';
+    if (a.tags) {
+      for (var ti2 = 0; ti2 < a.tags.length; ti2++) {
+        tagHtml += '<span class="card-tag" data-tag-zh="' + esc(a.tags[ti2].zh) + '">' +
+          '<span data-zh>' + esc(a.tags[ti2].zh) + '</span>' +
+          '<span data-en>' + esc(a.tags[ti2].en) + '</span>' +
+        '</span>';
+      }
     }
     cards += '<article class="card" data-article-id="' + a._id + '" data-section="' + section + '">' +
       tagHtml +
@@ -228,7 +256,7 @@ function renderSectionList(section, tag) {
         '<span data-zh>' + esc(a.zh.title) + '</span>' +
         '<span data-en>' + esc(a.en.title) + '</span>' +
       '</h3>' +
-      '<time class="card-date" datetime="' + a.date + '">' + a.date + '</time>' +
+      '<time class="card-date">' + a.date + '</time>' +
       '<p class="card-desc">' +
         '<span data-zh>' + esc(a.zh.desc) + '</span>' +
         '<span data-en>' + esc(a.en.desc) + '</span>' +
@@ -245,7 +273,7 @@ function renderSectionList(section, tag) {
       '<div class="section-divider"></div>' +
       tagsBar +
       filterHtml +
-      '<div class="card-list">' + cards + '</div>' +
+      '<div class="card-list">' + (cards || '<p class="empty-msg"><span data-zh>没有匹配的文章</span><span data-en>No matching articles</span></p>') + '</div>' +
     '</section>';
 }
 
@@ -263,12 +291,15 @@ function renderArticleDetail(section, id) {
   var bodyZh = a.zh.body || a.zh.desc;
   var bodyEn = a.en.body || a.en.desc;
 
+  // Category tags in detail
   var detailTagHtml = '';
-  if (a.tag) {
-    detailTagHtml = '<span class="article-cat-tag" data-tag-zh="' + esc(a.tag.zh) + '">' +
-      '<span data-zh>' + esc(a.tag.zh) + '</span>' +
-      '<span data-en>' + esc(a.tag.en) + '</span>' +
-    '</span>';
+  if (a.tags) {
+    for (var t = 0; t < a.tags.length; t++) {
+      detailTagHtml += '<span class="article-cat-tag" data-tag-zh="' + esc(a.tags[t].zh) + '">' +
+        '<span data-zh>' + esc(a.tags[t].zh) + '</span>' +
+        '<span data-en>' + esc(a.tags[t].en) + '</span>' +
+      '</span>';
+    }
   }
 
   document.getElementById('main-content').innerHTML =
