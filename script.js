@@ -5,17 +5,16 @@ for (var i = 0; i < articles.length; i++) {
 }
 
 var sectionNames = {
-  life:    { zh: '生活', en: 'Life' },
-  spec:    { zh: '投机', en: 'Spec' },
-  project: { zh: '项目', en: 'Project' }
+  project: { zh: '项目', en: 'Project' },
+  spec:    { zh: '投机', en: 'Spec' }
 };
 
 // ── Routing ─────────────────────────────────────────────
 function getRoute() {
-  var h = location.hash.replace('#', '') || '/life';
+  var h = location.hash.replace('#', '') || '/project';
   var parts = h.replace(/^\/+/, '').split('/');
   return {
-    section: parts[0] || 'life',
+    section: parts[0] || 'project',
     articleId: (parts.length > 1 && parts[1] !== '') ? parseInt(parts[1]) : null
   };
 }
@@ -35,7 +34,6 @@ function goBack() {
 
 function handleRoute() {
   var r = getRoute();
-  var main = document.getElementById('main-content');
 
   // Update sidebar active
   var navs = document.querySelectorAll('.nav-item');
@@ -53,7 +51,7 @@ function handleRoute() {
 
 // ── Render Section List ─────────────────────────────────
 function renderSectionList(section) {
-  if (!sectionNames[section]) section = 'life';
+  if (!sectionNames[section]) section = 'project';
   var main = document.getElementById('main-content');
 
   var items = [];
