@@ -1,4 +1,5 @@
 // ── Assign IDs ──────────────────────────────────────────
+try {
 var articleId = 0;
 for (var i = 0; i < articles.length; i++) {
   articles[i]._id = articleId++;
@@ -9,7 +10,6 @@ var sectionNames = {
   articles: { zh: '文章', en: 'Articles' }
 };
 
-// ── Collect all tags across articles ────────────────────
 var allTags = {};
 for (var i = 0; i < articles.length; i++) {
   var tags = articles[i].tags;
@@ -18,6 +18,10 @@ for (var i = 0; i < articles.length; i++) {
       allTags[tags[j].zh] = tags[j];
     }
   }
+}
+} catch (e) {
+  document.getElementById('main-content').innerHTML = '<div style="padding:32px;color:red;font:14px monospace;">Init Error: ' + e.message + '</div>';
+  throw e;
 }
 
 // ── Routing ─────────────────────────────────────────────
