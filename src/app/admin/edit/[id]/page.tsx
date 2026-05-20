@@ -2,7 +2,7 @@ import { getArticle } from '@/lib/articles';
 import { notFound } from 'next/navigation';
 import ArticleForm from '@/components/admin/article-form';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ id: string }>;

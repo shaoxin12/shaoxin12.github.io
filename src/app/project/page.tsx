@@ -2,7 +2,7 @@ import Shell from '@/components/shell';
 import CardList from '@/components/card-list';
 import { getArticles, getSectionNames } from '@/lib/articles';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export default async function ProjectPage() {
   const articles = await getArticles('project');
