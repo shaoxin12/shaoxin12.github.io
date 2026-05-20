@@ -348,7 +348,7 @@ function loadGiscus(section, id) {
 
   var script = document.createElement('script');
   script.src = 'https://giscus.app/client.js';
-  script.setAttribute('data-repo', 'yangshaoxin12/hreplo.github.io');
+  script.setAttribute('data-repo', 'yangshaoxin12/yangshaoxin12.github.io');
   script.setAttribute('data-repo-id', 'R_kgDOSiCCLw');
   script.setAttribute('data-category', 'General');
   script.setAttribute('data-category-id', 'DIC_kwDOSiCCL84C9cSq');
