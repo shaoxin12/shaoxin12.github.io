@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import LangToggle from '@/components/lang-toggle';
 
 export const metadata: Metadata = {
   title: '杨少新',
@@ -13,7 +14,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(){
+                var saved = localStorage.getItem('lang');
+                if (saved) document.documentElement.lang = saved;
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body>
+        <LangToggle />
+        {children}
+      </body>
     </html>
   );
 }
