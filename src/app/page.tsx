@@ -1,7 +1,7 @@
 import Shell from '@/components/shell';
 import HomeHero from '@/components/home-hero';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default function HomePage() {
   return (
