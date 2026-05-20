@@ -165,7 +165,7 @@ function loadGiscus() {
   script.setAttribute('data-repo', 'hreplo/hreplo.github.io');
   script.setAttribute('data-repo-id', 'R_kgDOSiCCLw');
   script.setAttribute('data-category', 'General');
-  script.setAttribute('data-category-id', 'DIC_kwDOSiCCL84Ck5Ud');
+  script.setAttribute('data-category-id', 'DIC_kwDOSiCCL84C9cSq');
   script.setAttribute('data-mapping', 'url');
   script.setAttribute('data-reactions-enabled', '0');
   script.setAttribute('data-emit-metadata', '0');
