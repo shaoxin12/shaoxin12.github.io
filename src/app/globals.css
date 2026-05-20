@@ -136,6 +136,7 @@ html, body, body > div {
   align-items: center;
   gap: 6px;
   width: 100%;
+  text-decoration: none;
   padding: 8px 10px;
   border: 2px solid var(--black);
   border-radius: 0;
@@ -212,6 +213,7 @@ html[lang="en"] .nav-en {
   align-items: center;
   gap: 6px;
   width: 100%;
+  text-decoration: none;
   padding: 5px 8px;
   border: none;
   border-left: 2px solid var(--black);
