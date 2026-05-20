@@ -26,7 +26,7 @@ html, body {
 /* ── Shell ────────────────────────────────────────────────── */
 .shell {
   display: grid;
-  grid-template-columns: 185px 1fr;
+  grid-template-columns: 210px 1fr;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -162,11 +162,11 @@ html[lang="en"] .nav-en {
 .sidebar-email {
   display: block;
   font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--gray);
-  letter-spacing: 0.03em;
-  word-break: break-all;
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 /* Mobile email footer (hidden on desktop) */
