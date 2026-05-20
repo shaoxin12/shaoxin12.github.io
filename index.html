@@ -7,18 +7,17 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language">
-    <span data-zh>中</span>
-    <span class="lang-slash">/</span>
-    <span data-en>EN</span>
-  </button>
-
   <div class="shell">
     <aside class="sidebar">
       <div class="sidebar-top">
         <div class="brand">
           <span class="brand-dot"></span>
           <span class="brand-name">杨少新</span>
+          <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language">
+            <span data-zh>中</span>
+            <span class="lang-slash">/</span>
+            <span data-en>EN</span>
+          </button>
         </div>
         <nav class="sidebar-nav">
           <button class="nav-item active" data-section="life" onclick="navigateToSection('life')">
