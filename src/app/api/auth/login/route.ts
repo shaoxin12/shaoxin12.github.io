@@ -23,9 +23,8 @@ export async function POST(request: Request) {
   const response = NextResponse.json({ ok: true });
   response.cookies.set('admin_token', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24, // 24 hours
+    maxAge: 60 * 60 * 24,
     path: '/',
   });
 
