@@ -3,6 +3,8 @@ import ArticleDetail from '@/components/article-detail';
 import { getArticle, getSectionNames } from '@/lib/articles';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 interface Props {
   params: Promise<{ id: string }>;
 }

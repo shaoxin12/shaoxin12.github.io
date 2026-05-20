@@ -3,6 +3,8 @@ import CardList from '@/components/card-list';
 import TagsBar from '@/components/tags-bar';
 import { getArticles, getAllTags, getSectionNames } from '@/lib/articles';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ArticlesPage() {
   const articles = await getArticles('articles');
   const allTags = await getAllTags();
