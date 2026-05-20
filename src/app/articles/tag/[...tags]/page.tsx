@@ -3,7 +3,7 @@ import CardList from '@/components/card-list';
 import TagsBar from '@/components/tags-bar';
 import { getArticles, getAllTags, getSectionNames } from '@/lib/articles';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 interface Props {
   params: Promise<{ tags: string[] }>;

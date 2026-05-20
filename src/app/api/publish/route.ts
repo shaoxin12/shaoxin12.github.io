@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { isAuthenticated } from '@/lib/auth';
 import { buildStaticHTML, publishToGitHub } from '@/lib/publish';
 
@@ -15,6 +16,12 @@ export async function POST() {
   try {
     const { html, css } = await buildStaticHTML();
     const url = await publishToGitHub(html, css, token);
+
+    // Clear ISR cache for all public pages
+    revalidatePath('/', 'layout');
+    revalidatePath('/project', 'layout');
+    revalidatePath('/articles', 'layout');
+
     return NextResponse.json({ ok: true, url });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
