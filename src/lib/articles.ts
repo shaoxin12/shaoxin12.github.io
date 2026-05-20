@@ -30,6 +30,7 @@ export interface ArticleInput {
 function rowToArticle(row: any): Article {
   return {
     ...row,
+    date: row.date instanceof Date ? row.date.toISOString().slice(0, 10) : String(row.date || ''),
     tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : (row.tags || [])
   };
 }
