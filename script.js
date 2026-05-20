@@ -1,5 +1,8 @@
 // ── Assign IDs ──────────────────────────────────────────
-try {
+if (typeof articles === 'undefined') {
+  document.getElementById('main-content').innerHTML = '<div style="padding:32px;color:red;font:14px monospace;">Error: articles not loaded. Check content.js.</div>';
+} else {
+
 var articleId = 0;
 for (var i = 0; i < articles.length; i++) {
   articles[i]._id = articleId++;
@@ -19,10 +22,7 @@ for (var i = 0; i < articles.length; i++) {
     }
   }
 }
-} catch (e) {
-  document.getElementById('main-content').innerHTML = '<div style="padding:32px;color:red;font:14px monospace;">Init Error: ' + e.message + '</div>';
-  throw e;
-}
+} // end if typeof articles check
 
 // ── Routing ─────────────────────────────────────────────
 function getRoute() {
