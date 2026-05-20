@@ -83,7 +83,7 @@ export default function ArticleForm({ article }: Props) {
       </h2>
 
       {error && (
-        <p style={{ color: '#DE2A18', fontWeight: 700, marginBottom: '16px' }}>{error}</p>
+        <p style={{ color: '#FF0000', fontWeight: 700, marginBottom: '16px' }}>{error}</p>
       )}
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>

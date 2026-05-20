@@ -15,7 +15,7 @@ export default function LogoutButton() {
       onClick={logout}
       style={{
         border: 'none', background: 'none', fontSize: '12px', fontWeight: 600,
-        color: '#DE2A18', cursor: 'pointer', fontFamily: 'inherit'
+        color: '#FF0000', cursor: 'pointer', fontFamily: 'inherit'
       }}
     >
       登出

@@ -39,7 +39,7 @@ export default function PublishButton() {
           fontSize: '12px',
           fontWeight: 700,
           color: '#fff',
-          background: '#DE2A18',
+          background: '#FF0000',
           cursor: status === 'publishing' ? 'default' : 'pointer',
           fontFamily: 'inherit',
           boxShadow: '2px 2px 0 #000',
@@ -51,7 +51,7 @@ export default function PublishButton() {
       {message && (
         <span style={{
           fontSize: '11px', fontWeight: 600,
-          color: status === 'error' ? '#DE2A18' : '#000',
+          color: status === 'error' ? '#FF0000' : '#000',
           maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
         }}>
           {message}

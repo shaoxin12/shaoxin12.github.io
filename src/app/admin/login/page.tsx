@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
         />
         {error && (
           <p style={{
-            color: '#DE2A18', fontSize: '12px', fontWeight: 700, marginBottom: '12px'
+            color: '#FF0000', fontSize: '12px', fontWeight: 700, marginBottom: '12px'
           }}>
             {error}
           </p>

@@ -59,7 +59,7 @@ export default function ArticleTable({ articles }: { articles: ArticleRow[] }) {
               <button
                 onClick={() => handleDelete(a.id)}
                 disabled={deleting === a.id}
-                style={{ ...actionStyle, color: '#DE2A18', border: 'none', background: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                style={{ ...actionStyle, color: '#FF0000', border: 'none', background: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
               >
                 {deleting === a.id ? '...' : '删除'}
               </button>
