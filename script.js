@@ -338,10 +338,10 @@ function renderArticleDetail(section, id) {
       '</div>' +
     '</div>';
 
-  setTimeout(loadGiscus, 50);
+  setTimeout(function() { loadGiscus(section, id); }, 100);
 }
 
-function loadGiscus() {
+function loadGiscus(section, id) {
   var container = document.getElementById('giscus-container');
   if (!container) return;
   container.innerHTML = '';
@@ -352,7 +352,8 @@ function loadGiscus() {
   script.setAttribute('data-repo-id', 'R_kgDOSiCCLw');
   script.setAttribute('data-category', 'General');
   script.setAttribute('data-category-id', 'DIC_kwDOSiCCL84C9cSq');
-  script.setAttribute('data-mapping', 'url');
+  script.setAttribute('data-mapping', 'specific');
+  script.setAttribute('data-term', section + '-' + id);
   script.setAttribute('data-reactions-enabled', '0');
   script.setAttribute('data-emit-metadata', '0');
   script.setAttribute('data-input-position', 'top');
