@@ -140,7 +140,41 @@ function renderArticleDetail(section, id) {
         '<span data-zh>' + bodyZh.replace(/\n/g, '<br>') + '</span>' +
         '<span data-en>' + bodyEn.replace(/\n/g, '<br>') + '</span>' +
       '</div>' +
+      '<div class="comments-section">' +
+        '<div class="comments-title">' +
+          '<span data-zh>评论</span>' +
+          '<span data-en>Comments</span>' +
+        '</div>' +
+        '<div class="giscus-container" id="giscus-container"></div>' +
+      '</div>' +
     '</div>';
+
+  // Load Giscus after DOM update
+  setTimeout(loadGiscus, 50);
+}
+
+function loadGiscus() {
+  var container = document.getElementById('giscus-container');
+  if (!container) return;
+
+  // Remove old Giscus iframe if any
+  container.innerHTML = '';
+
+  var script = document.createElement('script');
+  script.src = 'https://giscus.app/client.js';
+  script.setAttribute('data-repo', 'hreplo/hreplo.github.io');
+  script.setAttribute('data-repo-id', 'R_kgDOSiCCLw');
+  script.setAttribute('data-category', 'General');
+  script.setAttribute('data-category-id', 'DIC_kwDOSiCCL84Ck5Ud');
+  script.setAttribute('data-mapping', 'url');
+  script.setAttribute('data-reactions-enabled', '0');
+  script.setAttribute('data-emit-metadata', '0');
+  script.setAttribute('data-input-position', 'top');
+  script.setAttribute('data-theme', 'light');
+  script.setAttribute('data-lang', currentLang);
+  script.setAttribute('crossorigin', 'anonymous');
+  script.async = true;
+  container.appendChild(script);
 }
 
 function esc(s) {

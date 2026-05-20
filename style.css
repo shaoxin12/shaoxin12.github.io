@@ -26,7 +26,7 @@ html, body {
 /* ── Shell ────────────────────────────────────────────────── */
 .shell {
   display: grid;
-  grid-template-columns: 160px 1fr;
+  grid-template-columns: 185px 1fr;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -175,12 +175,18 @@ html[lang="en"] .nav-en {
   color: var(--gray);
   text-decoration: none;
   margin-top: 8px;
-  letter-spacing: 0.03em;
-  word-break: break-all;
+  letter-spacing: 0.02em;
+  overflow-wrap: break-word;
 }
 
 .sidebar-email:hover {
   color: var(--accent);
+  text-decoration: underline;
+}
+
+/* Mobile email footer (hidden on desktop) */
+.mobile-email {
+  display: none;
 }
 
 /* ── Main Content ─────────────────────────────────────────── */
@@ -391,6 +397,24 @@ html[lang="en"] .nav-en {
   word-break: break-word;
 }
 
+/* ── Comments ─────────────────────────────────────────────── */
+.comments-section {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 3px solid var(--black);
+}
+
+.comments-title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+
+.giscus-container {
+  min-height: 120px;
+}
+
 /* ── Language Visibility ──────────────────────────────────── */
 html[lang="zh-CN"] [data-en] { display: none; }
 html[lang="en"] [data-zh] { display: none; }
@@ -487,6 +511,26 @@ html[lang="en"] [data-zh] { display: none; }
   .sidebar-ver { display: none; }
   .sidebar-email { display: none; }
   .sidebar-footer { padding: 0; margin: 0; border-top: none; }
+
+  /* Show email at bottom of page on mobile */
+  .mobile-email {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    border-top: 2px solid var(--black);
+    background: var(--white);
+  }
+
+  .mobile-email a {
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--gray);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+  }
+
+  .mobile-email a:hover { color: var(--accent); }
 
   .main {
     flex: 1;
