@@ -594,7 +594,7 @@ html[lang="en"] .nav-en {
   font-size: 30px;
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin-bottom: 8px;
+  margin-bottom: 14px;
   line-height: 1.3;
 }
 
@@ -604,7 +604,7 @@ html[lang="en"] .nav-en {
   font-weight: 700;
   font-family: var(--font-mono);
   color: var(--accent);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .article-divider {
