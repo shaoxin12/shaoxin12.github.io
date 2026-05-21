@@ -31,7 +31,7 @@ html, body {
 /* ── Shell ────────────────────────────────────────────────── */
 .shell {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 260px 1fr;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -148,7 +148,7 @@ html, body {
   background: var(--white);
   color: var(--black);
   font-family: inherit;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   text-align: left;
@@ -185,7 +185,7 @@ html, body {
   opacity: 0.5;
 }
 
-.nav-zh { font-size: 15px; white-space: nowrap; }
+.nav-zh { font-size: 16px; white-space: nowrap; }
 
 .nav-en {
   font-size: 11px;
@@ -199,7 +199,7 @@ html, body {
 .nav-item.active .nav-arrow { opacity: 0.8; }
 
 html[lang="en"] .nav-en {
-  font-size: 14px;
+  font-size: 15px;
   opacity: 1;
 }
 
@@ -224,7 +224,7 @@ html[lang="en"] .nav-en {
   background: transparent;
   color: var(--black);
   font-family: inherit;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   text-align: left;
@@ -455,14 +455,14 @@ html[lang="en"] [data-zh] { display: none; }
 
   .sidebar-nav { flex-direction: row; padding: 0; gap: 6px; flex-shrink: 0; margin-left: 4px; }
 
-  .nav-item { width: auto; min-height: 40px; padding: 8px 12px; font-size: 14px; box-shadow: 2px 2px 0 var(--black); white-space: nowrap; }
-  .nav-zh { font-size: 14px; }
+  .nav-item { width: auto; min-height: 40px; padding: 8px 12px; font-size: 15px; box-shadow: 2px 2px 0 var(--black); white-space: nowrap; }
+  .nav-zh { font-size: 15px; }
   .nav-count { display: none; }
   .nav-arrow { display: none; }
   .sub-list { display: none !important; }
 
   html[lang="zh-CN"] .nav-en, html[lang="en"] .nav-zh { display: none !important; }
-  html[lang="en"] .nav-en { font-size: 13px; opacity: 1; display: block !important; }
+  html[lang="en"] .nav-en { font-size: 14px; opacity: 1; display: block !important; }
 
   .sidebar-footer { padding: 0; margin: 0; border-top: none; }
   .sidebar-email { display: none; }
@@ -506,9 +506,9 @@ html[lang="en"] [data-zh] { display: none; }
   .brand-dot { width: 6px; height: 6px; }
   .brand-name { font-size: 14px; }
   .sidebar-nav { gap: 4px; }
-  .nav-item { min-height: 36px; padding: 6px 10px; font-size: 13px; }
-  .nav-zh { font-size: 13px; }
-  html[lang="en"] .nav-en { font-size: 12px; }
+  .nav-item { min-height: 36px; padding: 6px 10px; font-size: 14px; }
+  .nav-zh { font-size: 14px; }
+  html[lang="en"] .nav-en { font-size: 13px; }
   .lang-toggle { padding: 4px 7px; font-size: 10px; }
   .main { padding: 16px 12px 32px; }
 
