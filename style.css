@@ -614,8 +614,8 @@ html[lang="en"] .nav-en {
 }
 
 .article-body {
-  font-size: 18px;
-  line-height: 2;
+  font-size: 21px;
+  line-height: 1.9;
   color: #222;
   word-break: break-word;
 }
@@ -792,7 +792,7 @@ html[lang="en"] [data-zh] { display: none; }
 
   .article-detail { max-width: 100%; }
   .article-header { font-size: 26px; }
-  .article-body { font-size: 17px; line-height: 1.85; }
+  .article-body { font-size: 19px; line-height: 1.85; }
   .article-back { margin-bottom: 20px; min-height: 40px; }
 }
 
@@ -832,5 +832,5 @@ html[lang="en"] [data-zh] { display: none; }
   .card-title { font-size: 16px; }
   .card-desc { font-size: 15px; }
   .article-header { font-size: 22px; }
-  .article-body { font-size: 16px; line-height: 1.75; }
+  .article-body { font-size: 18px; line-height: 1.75; }
 }
