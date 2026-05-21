@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>后台管理 — 杨少新</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #fff; color: #000; -webkit-font-smoothing: antialiased;
+      max-width: 960px; margin: 0 auto; padding: 24px 32px;
+    }
+    a { text-decoration: none; color: #000; }
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 2px solid #000; padding-bottom: 16px; margin-bottom: 24px;
+    }
+    .header h1 { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+    .header-actions { display: flex; gap: 8px; align-items: center; }
+    .btn {
+      border: 2px solid #000; padding: 6px 14px; font-size: 12px; font-weight: 700;
+      cursor: pointer; font-family: inherit; box-shadow: 2px 2px 0 #000;
+      transition: box-shadow 0.08s, transform 0.08s;
+    }
+    .btn:active { box-shadow: none; transform: translate(2px, 2px); }
+    .btn-black { background: #000; color: #fff; }
+    .btn-red { background: #FF0000; color: #fff; }
+    .btn-white { background: #fff; color: #000; }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+    th { text-align: left; padding: 10px 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border-bottom: 2px solid #000; }
+    td { padding: 10px 8px; font-size: 13px; border-bottom: 1px solid #ddd; }
+    .td-section { font-weight: 700; }
+    .td-actions { white-space: nowrap; }
+    .td-actions button { font-size: 11px; font-weight: 700; margin-right: 8px; cursor: pointer; font-family: inherit; border: none; background: none; }
+    .td-actions .edit { color: #000; }
+    .td-actions .delete { color: #FF0000; }
+    .panel { border: 2px solid #000; padding: 16px; margin-bottom: 16px; }
+    .panel h2 { font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .form-col h3 { font-size: 13px; font-weight: 700; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; }
+    .field { margin-bottom: 10px; }
+    .field label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 3px; }
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 6px 8px; border: 2px solid #000; font-size: 13px;
+      font-family: inherit; outline: none;
+    }
+    .field textarea { min-height: 100px; resize: vertical; }
+    .status { padding: 8px 12px; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+    .status-ok { background: #000; color: #fff; }
+    .status-err { background: #FF0000; color: #fff; }
+    .token-setup label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+    .token-setup input { width: 100%; padding: 8px; border: 2px solid #000; font-size: 13px; font-family: monospace; outline: none; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>后台管理</h1>
+  <div class="header-actions">
+    <span id="status-text" style="font-size:11px;font-weight:600;color:#555;"></span>
+    <button class="btn btn-black" onclick="loadArticles()">刷新</button>
+    <button class="btn btn-white" onclick="showNewForm()">+ 新建</button>
+    <button class="btn btn-red" onclick="publish()">发布到公网</button>
+  </div>
+</div>
+
+<div id="token-setup" class="panel token-setup">
+  <label>GitHub Token</label>
+  <input type="password" id="token-input" placeholder="ghp_..." />
+  <button class="btn btn-black" onclick="saveToken()">保存并加载</button>
+  <p style="font-size:11px;color:#555;margin-top:8px;">
+    需要 repo 权限。在 <a href="https://github.com/settings/tokens" target="_blank" style="text-decoration:underline;color:#555;">GitHub Settings → Tokens</a> 创建。
+  </p>
+</div>
+
+<div id="status-bar"></div>
+<div id="article-list"></div>
+<div id="edit-panel" class="panel" style="display:none"></div>
+
+<script>
+var owner = 'yangshaoxin12';
+var repo = 'yangshaoxin12.github.io';
+var currentSha = '';
+var articles = [];
+var editingId = null;
+
+// ── Token ────────────────────────────────────
+function getToken() {
+  return localStorage.getItem('gh_token') || '';
+}
+
+function saveToken() {
+  var val = document.getElementById('token-input').value.trim();
+  if (!val) return alert('请输入 token');
+  localStorage.setItem('gh_token', val);
+  document.getElementById('token-setup').style.display = 'none';
+  loadArticles();
+}
+
+// ── GitHub API ────────────────────────────────
+async function ghGet(path) {
+  var t = getToken();
+  var res = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + path, {
+    headers: { Authorization: 'token ' + t, 'User-Agent': 'admin' }
+  });
+  if (!res.ok) throw new Error('GitHub GET ' + path + ': ' + res.status);
+  return res.json();
+}
+
+async function ghPut(path, content, sha, msg) {
+  var t = getToken();
+  var body = { message: msg, content: btoa(unescape(encodeURIComponent(content))), branch: 'master' };
+  if (sha) body.sha = sha;
+  var res = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + path, {
+    method: 'PUT',
+    headers: { Authorization: 'token ' + t, 'User-Agent': 'admin', 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) {
+    var err = await res.json();
+    throw new Error(err.message || 'GitHub PUT failed');
+  }
+  return res.json();
+}
+
+// ── Parse content.js ──────────────────────────
+function parseArticles(jsContent) {
+  // Extract the array from var articles = [...];
+  var start = jsContent.indexOf('var articles = [');
+  if (start === -1) throw new Error('Cannot find articles in content.js');
+  var bracketStart = jsContent.indexOf('[', start);
+  var depth = 0, inString = false, esc = false;
+  for (var i = bracketStart; i < jsContent.length; i++) {
+    var c = jsContent[i];
+    if (esc) { esc = false; continue; }
+    if (c === '\\') { esc = true; continue; }
+    if (c === '"' || c === "'") { inString = !inString; continue; }
+    if (inString) continue;
+    if (c === '[') depth++;
+    if (c === ']') { depth--; if (depth === 0) {
+      var arrStr = jsContent.substring(bracketStart, i + 1);
+      return eval(arrStr);
+    }}
+  }
+  throw new Error('Malformed articles array');
+}
+
+// ── Load ──────────────────────────────────────
+async function loadArticles() {
+  if (!getToken()) {
+    document.getElementById('token-setup').style.display = 'block';
+    return;
+  }
+  document.getElementById('token-setup').style.display = 'none';
+  try {
+    var data = await ghGet('content.js');
+    currentSha = data.sha;
+    var jsContent = atob(data.content);
+    // Handle UTF-8
+    try { jsContent = decodeURIComponent(escape(atob(data.content))); } catch(e) {}
+    articles = parseArticles(jsContent);
+    setStatus('已加载 ' + articles.length + ' 篇文章', 'ok');
+    renderList();
+  } catch(e) {
+    setStatus('加载失败: ' + e.message, 'err');
+  }
+}
+
+// ── Status ────────────────────────────────────
+function setStatus(msg, type) {
+  var bar = document.getElementById('status-bar');
+  bar.innerHTML = '<div class="status status-' + (type || 'ok') + '">' + esc(msg) + '</div>';
+  document.getElementById('status-text').textContent = msg;
+}
+
+// ── Render list ───────────────────────────────
+function renderList() {
+  var html = '<table><thead><tr>' +
+    '<th>分区</th><th>日期</th><th>中文标题</th><th>English</th><th>标签</th><th>操作</th>' +
+    '</tr></thead><tbody>';
+
+  for (var i = 0; i < articles.length; i++) {
+    var a = articles[i];
+    var tags = (a.tags || []).map(function(t) { return t.zh; }).join(', ');
+    html += '<tr>' +
+      '<td class="td-section">' + (a.section === 'project' ? '项目' : '文章') + '</td>' +
+      '<td>' + esc(a.date) + '</td>' +
+      '<td><strong>' + esc(a.zh.title) + '</strong></td>' +
+      '<td style="font-size:11px;color:#555">' + esc(a.en.title) + '</td>' +
+      '<td style="font-size:11px">' + esc(tags) + '</td>' +
+      '<td class="td-actions">' +
+        '<button class="edit" onclick="showEditForm(' + i + ')">编辑</button>' +
+        '<button class="delete" onclick="deleteArticle(' + i + ')">删除</button>' +
+      '</td>' +
+    '</tr>';
+  }
+
+  html += '</tbody></table>';
+  if (articles.length === 0) html += '<p style="text-align:center;color:#555;padding:32px">暂无文章</p>';
+  document.getElementById('article-list').innerHTML = html;
+}
+
+// ── Form ──────────────────────────────────────
+function showNewForm() {
+  editingId = null;
+  renderForm({ section: 'articles', date: today(), tags: [], zh: { title: '', desc: '', body: '' }, en: { title: '', desc: '', body: '' } });
+}
+
+function showEditForm(idx) {
+  editingId = idx;
+  renderForm(articles[idx]);
+}
+
+function renderForm(a) {
+  var tagsStr = (a.tags || []).map(function(t) { return t.zh + '/' + t.en; }).join(', ');
+
+  var html = '<h2>' + (editingId !== null ? '编辑文章' : '新建文章') + '</h2>' +
+    '<div class="form-row">' +
+      '<div class="field"><label>分区</label><select id="f-section"><option value="articles"' + (a.section === 'articles' ? ' selected' : '') + '>文章</option><option value="project"' + (a.section === 'project' ? ' selected' : '') + '>项目</option></select></div>' +
+      '<div class="field"><label>日期</label><input type="date" id="f-date" value="' + a.date + '" /></div>' +
+    '</div>' +
+    '<div class="field"><label>标签 (格式: 中文/English, 中文/English)</label><input type="text" id="f-tags" value="' + esc(tagsStr) + '" placeholder="交易/Trading, 哲学/Philosophy" /></div>' +
+    '<div class="form-row">' +
+      '<div class="form-col"><h3>中文</h3>' +
+        '<div class="field"><label>标题</label><input type="text" id="f-zh-title" value="' + esc(a.zh.title) + '" /></div>' +
+        '<div class="field"><label>摘要</label><input type="text" id="f-zh-desc" value="' + esc(a.zh.desc) + '" /></div>' +
+        '<div class="field"><label>正文（换行分段）</label><textarea id="f-zh-body">' + esc(a.zh.body || '') + '</textarea></div>' +
+      '</div>' +
+      '<div class="form-col"><h3>English</h3>' +
+        '<div class="field"><label>Title</label><input type="text" id="f-en-title" value="' + esc(a.en.title) + '" /></div>' +
+        '<div class="field"><label>Description</label><input type="text" id="f-en-desc" value="' + esc(a.en.desc) + '" /></div>' +
+        '<div class="field"><label>Body</label><textarea id="f-en-body">' + esc(a.en.body || '') + '</textarea></div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="display:flex;gap:8px">' +
+      '<button class="btn btn-black" onclick="saveArticle()">保存</button>' +
+      '<button class="btn btn-white" onclick="cancelEdit()">取消</button>' +
+    '</div>';
+
+  document.getElementById('edit-panel').style.display = 'block';
+  document.getElementById('edit-panel').innerHTML = html;
+  document.getElementById('edit-panel').scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelEdit() {
+  editingId = null;
+  document.getElementById('edit-panel').style.display = 'none';
+  document.getElementById('edit-panel').innerHTML = '';
+}
+
+// ── Save ──────────────────────────────────────
+async function saveArticle() {
+  var section = document.getElementById('f-section').value;
+  var date = document.getElementById('f-date').value;
+  var tagsStr = document.getElementById('f-tags').value;
+  var tags = tagsStr.split(',').map(function(s) {
+    var parts = s.trim().split('/');
+    return { zh: (parts[0] || '').trim(), en: (parts[1] || '').trim() };
+  }).filter(function(t) { return t.zh && t.en; });
+
+  var article = {
+    section: section,
+    date: date,
+    tags: tags,
+    zh: {
+      title: document.getElementById('f-zh-title').value,
+      desc: document.getElementById('f-zh-desc').value,
+      body: document.getElementById('f-zh-body').value
+    },
+    en: {
+      title: document.getElementById('f-en-title').value,
+      desc: document.getElementById('f-en-desc').value,
+      body: document.getElementById('f-en-body').value
+    }
+  };
+
+  if (editingId !== null) {
+    articles[editingId] = article;
+  } else {
+    articles.push(article);
+  }
+
+  var newContent = generateContentJS();
+  try {
+    var result = await ghPut('content.js', newContent, currentSha, 'admin: update articles');
+    currentSha = result.content.sha;
+    setStatus('保存成功！', 'ok');
+    cancelEdit();
+    renderList();
+  } catch(e) {
+    setStatus('保存失败: ' + e.message, 'err');
+  }
+}
+
+// ── Delete ────────────────────────────────────
+async function deleteArticle(idx) {
+  if (!confirm('确定删除 "' + articles[idx].zh.title + '"？')) return;
+  articles.splice(idx, 1);
+  var newContent = generateContentJS();
+  try {
+    var result = await ghPut('content.js', newContent, currentSha, 'admin: delete article');
+    currentSha = result.content.sha;
+    setStatus('已删除', 'ok');
+    renderList();
+  } catch(e) {
+    setStatus('删除失败: ' + e.message, 'err');
+  }
+}
+
+// ── Generate content.js ───────────────────────
+function generateContentJS() {
+  var lines = [];
+  lines.push('// ══════════════════════════════════════════════════════════');
+  lines.push('// 文章内容 — 添加新文章只需复制一条 { } 块');
+  lines.push('// section: \'project\' | \'articles\'');
+  lines.push('// tags:   文章分类标签（数组，可有多个）');
+  lines.push('// body:   正文（可选）');
+  lines.push('// ══════════════════════════════════════════════════════════');
+  lines.push('');
+  lines.push('var articles = [');
+  lines.push('  // ── 项目 ──────────────────────────────────────────────');
+
+  var projects = articles.filter(function(a) { return a.section === 'project'; });
+  var articleItems = articles.filter(function(a) { return a.section === 'articles'; });
+
+  for (var i = 0; i < projects.length; i++) {
+    lines.push('  {');
+    lines.push("    section: 'project',");
+    lines.push("    date: '" + projects[i].date + "',");
+    lines.push('    zh: {');
+    lines.push("      title: '" + esc(projects[i].zh.title) + "',");
+    lines.push("      desc: '" + esc(projects[i].zh.desc) + "',");
+    lines.push("      body: '" + esc(projects[i].zh.body || '').replace(/\n/g, '\\n') + "'");
+    lines.push('    },');
+    lines.push('    en: {');
+    lines.push("      title: '" + esc(projects[i].en.title) + "',");
+    lines.push("      desc: '" + esc(projects[i].en.desc) + "',");
+    lines.push("      body: '" + esc(projects[i].en.body || '').replace(/\n/g, '\\n') + "'");
+    lines.push('    }');
+    lines.push('  }' + (i < projects.length - 1 || articleItems.length > 0 ? ',' : ''));
+  }
+
+  lines.push('');
+  lines.push('  // ── 文章 ──────────────────────────────────────────────');
+
+  for (var j = 0; j < articleItems.length; j++) {
+    var tagsStr = (articleItems[j].tags || []).map(function(t) {
+      return "{ zh: '" + esc(t.zh) + "', en: '" + esc(t.en) + "' }";
+    }).join(', ');
+    lines.push('  {');
+    lines.push("    section: 'articles',");
+    lines.push("    date: '" + articleItems[j].date + "',");
+    lines.push("    tags: [" + tagsStr + "],");
+    lines.push('    zh: {');
+    lines.push("      title: '" + esc(articleItems[j].zh.title) + "',");
+    lines.push("      desc: '" + esc(articleItems[j].zh.desc) + "',");
+    lines.push("      body: '" + esc(articleItems[j].zh.body || '').replace(/\n/g, '\\n') + "'");
+    lines.push('    },');
+    lines.push('    en: {');
+    lines.push("      title: '" + esc(articleItems[j].en.title) + "',");
+    lines.push("      desc: '" + esc(articleItems[j].en.desc) + "',");
+    lines.push("      body: '" + esc(articleItems[j].en.body || '').replace(/\n/g, '\\n') + "'");
+    lines.push('    }');
+    lines.push('  }' + (j < articleItems.length - 1 ? ',' : ''));
+  }
+
+  lines.push('];');
+  return lines.join('\n');
+}
+
+// ── Publish ───────────────────────────────────
+async function publish() {
+  if (!confirm('发布会同时提交 index.html, style.css 和 script.js 到 GitHub。确定？')) return;
+  setStatus('发布中...', 'ok');
+  try {
+    // Sync index.html
+    var indexRes = await ghGet('index.html');
+    var indexSHA = indexRes.sha;
+    // Read current index.html from the web (same as what's being served)
+    var indexContent = await (await fetch('index.html?' + Date.now())).text();
+    await ghPut('index.html', indexContent, indexSHA, 'publish: sync index.html');
+
+    // Sync style.css
+    var styleRes = await ghGet('style.css');
+    var styleSHA = styleRes.sha;
+    var styleContent = await (await fetch('style.css?' + Date.now())).text();
+    await ghPut('style.css', styleContent, styleSHA, 'publish: sync style.css');
+
+    // Sync script.js
+    var scriptRes = await ghGet('script.js');
+    var scriptSHA = scriptRes.sha;
+    var scriptContent = await (await fetch('script.js?' + Date.now())).text();
+    await ghPut('script.js', scriptContent, scriptSHA, 'publish: sync script.js');
+
+    setStatus('发布成功！30 秒后访问 yangshaoxin12.github.io', 'ok');
+  } catch(e) {
+    setStatus('发布失败: ' + e.message, 'err');
+  }
+}
+
+// ── Utils ─────────────────────────────────────
+function esc(s) {
+  s = s || '';
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function today() {
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+// ── Init ──────────────────────────────────────
+if (getToken()) {
+  document.getElementById('token-setup').style.display = 'none';
+  loadArticles();
+} else {
+  document.getElementById('token-input').focus();
+}
+</script>
+</body>
+</html>

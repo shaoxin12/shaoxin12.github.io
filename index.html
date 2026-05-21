@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>杨少新</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div class="brand">
+          <a class="brand-btn" href="#" onclick="navigateHome();return false" aria-label="Home">
+            <span class="brand-dot"></span>
+            <span class="brand-name">杨少新</span>
+          </a>
+          <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language">
+            <span data-zh>中</span>
+            <span class="lang-slash">/</span>
+            <span data-en>EN</span>
+          </button>
+        </div>
+        <nav class="sidebar-nav" id="sidebar-nav"></nav>
+      </div>
+      <div class="sidebar-footer">
+        <span class="sidebar-email">yangshaoxin12@gmail.com</span>
+      </div>
+    </aside>
+    <main class="main" id="main-content"></main>
+    <div class="mobile-email">yangshaoxin12@gmail.com</div>
+  </div>
+  <script src="content.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
