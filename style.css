@@ -620,6 +620,14 @@ html[lang="en"] .nav-en {
   word-break: break-word;
 }
 
+.article-body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 16px 0;
+  border: 2px solid #ddd;
+}
+
 /* ── Comments ─────────────────────────────────────────────── */
 .comments-section {
   margin-top: 48px;
