@@ -207,7 +207,7 @@ html[lang="en"] .nav-en {
 .sub-list {
   display: none;
   flex-direction: column;
-  padding: 2px 0 4px 10px;
+  padding: 4px 0 4px 8px;
 }
 
 .nav-group.open .sub-list {
@@ -219,9 +219,8 @@ html[lang="en"] .nav-en {
   align-items: center;
   gap: 6px;
   width: 100%;
-  padding: 5px 8px 5px 12px;
+  padding: 6px 8px;
   border: none;
-  border-left: 1px solid #999;
   background: transparent;
   color: var(--black);
   font-family: inherit;
