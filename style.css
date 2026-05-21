@@ -599,19 +599,18 @@ html[lang="en"] .nav-en {
 }
 
 .article-date {
-  display: block;
+  display: inline-block;
   font-size: 13px;
   font-weight: 700;
   font-family: var(--font-mono);
   color: var(--accent);
-  margin-bottom: 6px;
+  margin-bottom: 24px;
+  padding-bottom: 6px;
+  border-bottom: 3px solid var(--accent);
 }
 
 .article-divider {
-  width: 73px;
-  height: 3px;
-  background: var(--accent);
-  margin-bottom: 24px;
+  display: none;
 }
 
 .article-body {
