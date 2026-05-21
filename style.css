@@ -99,7 +99,7 @@ html, body {
   background: var(--white);
   color: var(--black);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   letter-spacing: 0.04em;
@@ -149,7 +149,7 @@ html, body {
   background: var(--white);
   color: var(--black);
   font-family: inherit;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   text-align: left;
@@ -173,7 +173,7 @@ html, body {
 }
 
 .nav-arrow {
-  font-size: 9px;
+  font-size: 11px;
   flex-shrink: 0;
   width: 14px;
   text-align: center;
@@ -181,15 +181,15 @@ html, body {
 
 .nav-count {
   margin-left: auto;
-  font-size: 10px;
+  font-size: 11px;
   font-family: var(--font-mono);
   opacity: 0.5;
 }
 
-.nav-zh { font-size: 13px; white-space: nowrap; }
+.nav-zh { font-size: 14px; white-space: nowrap; }
 
 .nav-en {
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.06em;
   opacity: 0.5;
   flex-shrink: 0;
@@ -200,7 +200,7 @@ html, body {
 .nav-item.active .nav-arrow { opacity: 0.8; }
 
 html[lang="en"] .nav-en {
-  font-size: 13px;
+  font-size: 14px;
   opacity: 1;
 }
 
@@ -254,7 +254,7 @@ html[lang="en"] .nav-en {
 
 .empty-msg {
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--gray);
   padding: 32px 0;
 }
@@ -268,7 +268,7 @@ html[lang="en"] .nav-en {
 .sidebar-email {
   display: block;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   color: #222;
   letter-spacing: 0.02em;
@@ -325,7 +325,7 @@ html[lang="en"] .nav-en {
 }
 
 .home-tagline {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--gray);
   font-weight: 600;
   margin-top: 12px;
@@ -378,7 +378,7 @@ html[lang="en"] .nav-en {
 }
 
 .home-card-sub {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--gray);
   font-weight: 600;
   line-height: 1.4;
@@ -400,7 +400,7 @@ html[lang="en"] .nav-en {
 }
 
 .section-title {
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 4px;
@@ -443,12 +443,12 @@ html[lang="en"] .nav-en {
   transform: translate(4px, 4px);
 }
 
-.card-tag {
+.card-tag { padding: 2px 8px;
   display: inline-block;
   background: var(--black);
   color: var(--white);
   padding: 1px 7px;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -461,7 +461,7 @@ html[lang="en"] .nav-en {
 .card-tag:hover { opacity: 0.8; }
 
 .card-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.01em;
   margin-bottom: 6px;
@@ -469,7 +469,7 @@ html[lang="en"] .nav-en {
 
 .card-date {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   font-family: var(--font-mono);
   color: var(--accent);
@@ -477,7 +477,7 @@ html[lang="en"] .nav-en {
 }
 
 .card-desc {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--gray);
   line-height: 1.6;
 }
@@ -498,7 +498,7 @@ html[lang="en"] .nav-en {
   background: var(--white);
   color: var(--black);
   padding: 4px 10px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
@@ -541,7 +541,7 @@ html[lang="en"] .nav-en {
   background: var(--white);
   color: var(--black);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   padding: 8px 14px;
@@ -569,7 +569,7 @@ html[lang="en"] .nav-en {
   background: var(--black);
   color: var(--white);
   padding: 2px 10px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -581,7 +581,7 @@ html[lang="en"] .nav-en {
   background: var(--white);
   color: var(--black);
   padding: 1px 9px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
   cursor: pointer;
@@ -591,7 +591,7 @@ html[lang="en"] .nav-en {
 .article-cat-tag:hover { background: var(--light-gray); }
 
 .article-header {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 16px;
@@ -600,7 +600,7 @@ html[lang="en"] .nav-en {
 
 .article-date {
   display: inline-block;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   font-family: var(--font-mono);
   color: var(--accent);
@@ -614,7 +614,7 @@ html[lang="en"] .nav-en {
 }
 
 .article-body {
-  font-size: 17px;
+  font-size: 18px;
   line-height: 2;
   color: #222;
   word-break: break-word;
@@ -636,7 +636,7 @@ html[lang="en"] .nav-en {
 }
 
 .comments-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.01em;
   margin-bottom: 20px;
@@ -662,7 +662,7 @@ html[lang="en"] [data-zh] { display: none; }
     right: 12px;
     z-index: 100;
     padding: 5px 8px;
-    font-size: 10px;
+    font-size: 11px;
     box-shadow: 2px 2px 0 var(--black);
   }
 
@@ -706,7 +706,7 @@ html[lang="en"] [data-zh] { display: none; }
   }
 
   .brand-name {
-    font-size: 14px;
+    font-size: 15px;
     white-space: nowrap;
   }
 
@@ -722,12 +722,12 @@ html[lang="en"] [data-zh] { display: none; }
     width: auto;
     min-height: 40px;
     padding: 8px 12px;
-    font-size: 12px;
+    font-size: 13px;
     box-shadow: 2px 2px 0 var(--black);
     white-space: nowrap;
   }
 
-  .nav-zh { font-size: 12px; }
+  .nav-zh { font-size: 13px; }
   .nav-count { display: none; }
   .nav-arrow { display: none; }
   .sub-list { display: none !important; }
@@ -737,7 +737,7 @@ html[lang="en"] [data-zh] { display: none; }
   html[lang="en"] .nav-zh { display: none !important; }
 
   html[lang="en"] .nav-en {
-    font-size: 12px;
+    font-size: 13px;
     opacity: 1;
     display: block !important;
   }
@@ -753,7 +753,7 @@ html[lang="en"] [data-zh] { display: none; }
     border-top: 2px solid var(--black);
     background: var(--white);
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--gray);
     letter-spacing: 0.03em;
@@ -767,12 +767,12 @@ html[lang="en"] [data-zh] { display: none; }
   }
 
   /* Home — mobile */
-  .home-name { font-size: 38px; }
-  .home-tagline { font-size: 16px; }
+  .home-name { font-size: 40px; }
+  .home-tagline { font-size: 17px; }
   .home-cards { flex-direction: column; max-width: 100%; }
   .home-card { min-width: auto; }
 
-  .section-title { font-size: 26px; }
+  .section-title { font-size: 28px; }
 
   .card-list {
     max-width: 100%;
@@ -784,15 +784,15 @@ html[lang="en"] [data-zh] { display: none; }
     box-shadow: 3px 3px 0 var(--black);
   }
 
-  .card-title { font-size: 16px; }
-  .card-tag { font-size: 8px; padding: 1px 6px; }
-  .card-desc { font-size: 13px; }
+  .card-title { font-size: 17px; }
+  .card-tag { font-size: 10px; padding: 2px 7px; }
+  .card-desc { font-size: 15px; }
   .tags-bar { gap: 6px; margin-bottom: 18px; }
-  .tags-bar-item { font-size: 10px; padding: 3px 8px; }
+  .tags-bar-item { font-size: 11px; padding: 3px 8px; }
 
   .article-detail { max-width: 100%; }
-  .article-header { font-size: 24px; }
-  .article-body { font-size: 16px; line-height: 1.85; }
+  .article-header { font-size: 26px; }
+  .article-body { font-size: 17px; line-height: 1.85; }
   .article-back { margin-bottom: 20px; min-height: 40px; }
 }
 
@@ -803,34 +803,34 @@ html[lang="en"] [data-zh] { display: none; }
 
   .brand { padding-right: 6px; }
   .brand-dot { width: 6px; height: 6px; }
-  .brand-name { font-size: 13px; }
+  .brand-name { font-size: 14px; }
 
   .sidebar-nav { gap: 4px; }
 
   .nav-item {
     min-height: 36px;
     padding: 6px 10px;
-    font-size: 11px;
+    font-size: 12px;
   }
 
-  .nav-zh { font-size: 11px; }
+  .nav-zh { font-size: 12px; }
 
-  html[lang="en"] .nav-en { font-size: 11px; }
+  html[lang="en"] .nav-en { font-size: 12px; }
 
   .lang-toggle {
     padding: 4px 7px;
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .main { padding: 16px 12px 32px; }
 
-  .home-name { font-size: 30px; }
+  .home-name { font-size: 34px; }
   .home-card-title { font-size: 20px; }
 
-  .section-title { font-size: 22px; }
+  .section-title { font-size: 24px; }
   .section-divider { margin-bottom: 20px; }
-  .card-title { font-size: 15px; }
-  .card-desc { font-size: 12px; }
-  .article-header { font-size: 21px; }
-  .article-body { font-size: 15px; line-height: 1.75; }
+  .card-title { font-size: 16px; }
+  .card-desc { font-size: 15px; }
+  .article-header { font-size: 22px; }
+  .article-body { font-size: 16px; line-height: 1.75; }
 }
