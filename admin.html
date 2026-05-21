@@ -80,8 +80,8 @@
 <div id="edit-panel" class="panel" style="display:none"></div>
 
 <script>
-var owner = 'yangshaoxin12';
-var repo = 'yangshaoxin12.github.io';
+var owner = 'shaoxin12';
+var repo = 'shaoxin12.github.io';
 var currentSha = '';
 var articles = [];
 var editingId = null;
@@ -394,7 +394,7 @@ async function publish() {
     var scriptContent = await (await fetch('script.js?' + Date.now())).text();
     await ghPut('script.js', scriptContent, scriptSHA, 'publish: sync script.js');
 
-    setStatus('发布成功！30 秒后访问 yangshaoxin12.github.io', 'ok');
+    setStatus('发布成功！30 秒后访问 shaoxin12.github.io', 'ok');
   } catch(e) {
     setStatus('发布失败: ' + e.message, 'err');
   }

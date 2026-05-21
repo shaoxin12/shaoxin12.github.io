@@ -1,9 +1,9 @@
-# 杨少新个人网站 (yangshaoxin12.github.io)
+# 杨少新个人网站 (shaoxin12.github.io)
 
 纯静态站点，部署在 GitHub Pages。
 
-- 访问地址：`https://yangshaoxin12.github.io/`
-- 仓库：`yangshaoxin12/yangshaoxin12.github.io`
+- 访问地址：`https://shaoxin12.github.io/`
+- 仓库：`shaoxin12/shaoxin12.github.io`
 
 ## 文件结构
 
