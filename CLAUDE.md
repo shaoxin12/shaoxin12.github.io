@@ -15,15 +15,49 @@
 └── admin.html    ← 本地后台编辑器（浏览器打开，用 GitHub API 编辑发布）
 ```
 
-## 发布流程
+## MD 发布流程（推荐）
 
-1. 浏览器打开 `admin.html`
-2. 输入 GitHub Token（首次仅一次，存 localStorage）
-3. 编辑文章 → 保存（自动提交 content.js 到 GitHub）
-4. 点「发布到公网」（同步所有文件到 GitHub）
-5. GitHub Pages 自动部署（约 30 秒生效）
+用户写 Markdown 文件发给 Claude Code，Claude Code 自动发布。
 
-不需要 Vercel、不需要数据库、不需要构建。
+### MD 格式
+
+```markdown
+---
+section: articles
+date: 2026-05-21
+tags: 交易/Trading, 哲学/Philosophy
+---
+
+# 中文标题 / English Title
+
+中文摘要
+
+English description
+
+---
+
+中文正文（可选）
+
+English body (optional)
+```
+
+- `section`: `project` 或 `articles`
+- `tags`: 逗号分隔，每个格式 `中文/English`（project 不需要）
+- `#` 行：`中文标题 / English Title`
+- 紧跟两段：中文摘要 + English description
+- `---` 之后：正文，先中文后英文（可选）
+
+### Claude Code 处理流程
+
+1. 读取 MD 文件，解析 frontmatter + 标题 + 摘要 + 正文
+2. 在 `content.js` 的 `var articles = [` 数组末尾追加新文章
+3. 提交 `content.js`：`git add content.js && git commit -m "publish: <文章标题>"`
+4. Push 到 GitHub：`git push`
+5. GitHub Pages 自动部署（约 30 秒）
+
+## admin.html（备选）
+
+如果用户要自己编辑，浏览器打开 `admin.html`，用 GitHub Token 登录后可直接编辑发布。
 
 ## 设计风格
 
