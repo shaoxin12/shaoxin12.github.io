@@ -61,6 +61,8 @@ html, body {
   background: none;
   cursor: pointer;
   font-family: inherit;
+  text-decoration: none;
+  color: inherit;
   -webkit-tap-highlight-color: transparent;
 }
 
