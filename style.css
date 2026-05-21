@@ -207,7 +207,7 @@ html[lang="en"] .nav-en {
 .sub-list {
   display: none;
   flex-direction: column;
-  padding: 2px 0 4px 10px;
+  padding: 6px 0 4px 10px;
 }
 
 .nav-group.open .sub-list {
@@ -238,9 +238,8 @@ html[lang="en"] .nav-en {
 }
 
 .sub-item.active {
-  background: #e8e8e8;
-  color: var(--black);
-  font-weight: 700;
+  background: var(--black);
+  color: var(--white);
 }
 
 .sub-item-title {
