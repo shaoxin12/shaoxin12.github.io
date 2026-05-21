@@ -267,7 +267,7 @@ html[lang="en"] .nav-en {
 .sidebar-email {
   display: block;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: #222;
   letter-spacing: 0.02em;
@@ -469,7 +469,7 @@ html[lang="en"] [data-zh] { display: none; }
 
   .mobile-email {
     display: block; text-align: center; padding: 14px 16px; border-top: 2px solid var(--black);
-    background: var(--white); font-family: var(--font-mono); font-size: 12px;
+    background: var(--white); font-family: var(--font-mono); font-size: 14px;
     font-weight: 700; color: var(--gray); letter-spacing: 0.03em;
   }
 
