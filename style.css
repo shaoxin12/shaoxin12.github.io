@@ -608,7 +608,7 @@ html[lang="en"] .nav-en {
 }
 
 .article-divider {
-  width: 80px;
+  width: 75px;
   height: 3px;
   background: var(--accent);
   margin-bottom: 24px;
