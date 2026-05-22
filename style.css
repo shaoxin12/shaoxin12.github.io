@@ -397,7 +397,7 @@ html[lang="en"] .nav-en {
 }
 .article-back:active { box-shadow: none; transform: translate(2px, 2px); }
 
-.article-tags { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.article-tags { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
 
 .article-tag {
   display: inline-flex; align-items: center; justify-content: center;
@@ -414,7 +414,7 @@ html[lang="en"] .nav-en {
 }
 .article-cat-tag:hover { background: var(--light-gray); }
 
-.article-header { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; line-height: 1.3; }
+.article-header { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 20px; line-height: 1.3; }
 
 .article-date {
   display: inline-block; font-size: 14px; font-weight: 700;
