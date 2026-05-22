@@ -356,9 +356,10 @@ html[lang="en"] .nav-en {
 .card:active { box-shadow: none; transform: translate(4px, 4px); }
 
 .card-tag {
-  display: inline-block; background: var(--black); color: var(--white);
-  padding: 2px 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
-  text-transform: uppercase; margin-bottom: 6px; margin-right: 6px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--black); color: var(--white);
+  padding: 3px 8px; font-size: 12px; font-weight: 700;
+  line-height: 1; margin-bottom: 6px; margin-right: 6px; cursor: pointer;
   transition: opacity 0.08s;
 }
 .card-tag:hover { opacity: 0.8; }
@@ -396,18 +397,20 @@ html[lang="en"] .nav-en {
 }
 .article-back:active { box-shadow: none; transform: translate(2px, 2px); }
 
-.article-tags { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; }
+.article-tags { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
 
 .article-tag {
-  display: inline-block; background: var(--black); color: var(--white);
-  padding: 2px 10px; font-size: 12px; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--black); color: var(--white);
+  padding: 3px 12px; font-size: 12px; font-weight: 700;
+  line-height: 1;
 }
 
 .article-cat-tag {
-  display: inline-block; border: 2px solid var(--black); background: var(--white);
-  color: var(--black); padding: 2px 10px; font-size: 12px; font-weight: 700;
-  letter-spacing: 0.06em; cursor: pointer; transition: background 0.08s;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 2px solid var(--black); background: var(--white);
+  color: var(--black); padding: 3px 12px; font-size: 12px; font-weight: 700;
+  line-height: 1; cursor: pointer; transition: background 0.08s;
 }
 .article-cat-tag:hover { background: var(--light-gray); }
 
