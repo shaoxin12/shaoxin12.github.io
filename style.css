@@ -342,7 +342,7 @@ html[lang="en"] .nav-en {
 .section-divider { width: 60px; height: 3px; background: var(--accent); margin: 0 auto 28px; }
 
 /* ── Cards ────────────────────────────────────────────────── */
-.card-list { display: flex; flex-direction: column; gap: 16px; max-width: 640px; margin: 0 auto; }
+.card-list { display: flex; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; }
 
 .card {
   border: 3px solid var(--black); background: var(--white); padding: 16px 20px;
@@ -383,7 +383,7 @@ html[lang="en"] .nav-en {
 .tags-bar-item.active { background: var(--black); color: var(--white); }
 
 /* ── Article Detail View ──────────────────────────────────── */
-.article-detail { display: none; max-width: 680px; margin: 0 auto; }
+.article-detail { display: none; max-width: 600px; margin: 0 auto; }
 .article-detail.active { display: block; animation: fade-in 0.15s ease; }
 
 .article-back {
