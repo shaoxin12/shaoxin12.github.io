@@ -153,8 +153,47 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// ── Stats Helpers ───────────────────────────────────────
+function countWords(text) {
+  if (!text) return 0;
+  var stripped = text.replace(/<[^>]+>/g, '');
+  var cjk = (stripped.match(/[一-鿿㐀-䶿]/g) || []).length;
+  var latin = (stripped.match(/[a-zA-Z]+/g) || []).length;
+  return cjk + latin;
+}
+
+function estimateReadTime(text) {
+  var words = countWords(text);
+  var mins = Math.max(1, Math.round(words / 350));
+  return mins;
+}
+
+function getSiteStats() {
+  var projectCount = 0, articleCount = 0, totalWords = 0, lastDate = '';
+  for (var i = 0; i < articles.length; i++) {
+    var a = articles[i];
+    if (a.section === 'project') projectCount++;
+    else articleCount++;
+    totalWords += countWords((a.zh.body || a.zh.desc) + (a.en.body || a.en.desc));
+    if (a.date > lastDate) lastDate = a.date;
+  }
+  return {
+    projectCount: projectCount,
+    articleCount: articleCount,
+    totalWords: totalWords,
+    lastDate: lastDate
+  };
+}
+
+function formatWordCount(n) {
+  if (n >= 10000) return (n / 1000).toFixed(1) + 'k';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+  return String(n);
+}
+
 // ── Render Home Page ─────────────────────────────────────
 function renderHome() {
+  var stats = getSiteStats();
   var main = document.getElementById('main-content');
   main.innerHTML =
     '<section class="section active home-section">' +
@@ -180,6 +219,29 @@ function renderHome() {
           '<span class="home-card-sub" data-zh>交易笔记与思考</span>' +
           '<span class="home-card-sub" data-en>Trading Notes &amp; Thoughts</span>' +
         '</button>' +
+      '</div>' +
+      '<div class="color-bar"><span></span><span></span><span></span><span></span></div>' +
+      '<div class="home-stats">' +
+        '<div class="stat-block">' +
+          '<span class="stat-number">' + stats.articleCount + '</span>' +
+          '<span class="stat-label" data-zh>文章</span>' +
+          '<span class="stat-label" data-en>Articles</span>' +
+        '</div>' +
+        '<div class="stat-block">' +
+          '<span class="stat-number">' + stats.projectCount + '</span>' +
+          '<span class="stat-label" data-zh>项目</span>' +
+          '<span class="stat-label" data-en>Projects</span>' +
+        '</div>' +
+        '<div class="stat-block">' +
+          '<span class="stat-number">' + formatWordCount(stats.totalWords) + '</span>' +
+          '<span class="stat-label" data-zh>总字数</span>' +
+          '<span class="stat-label" data-en>Words</span>' +
+        '</div>' +
+        '<div class="stat-block">' +
+          '<span class="stat-number">' + (stats.lastDate ? stats.lastDate.slice(0, 4) : '—') + '</span>' +
+          '<span class="stat-label" data-zh>更新至</span>' +
+          '<span class="stat-label" data-en>Updated</span>' +
+        '</div>' +
       '</div>' +
     '</section>';
 }
@@ -285,11 +347,14 @@ function renderSectionList(section, tags) {
         '</span>';
       }
     }
+    var readMin = estimateReadTime((a.zh.body || a.zh.desc) + (a.en.body || a.en.desc));
     cards += '<article class="card" data-article-id="' + a._id + '" data-section="' + section + '">' +
       tagHtml +
       '<h3 class="card-title">' +
         '<span data-zh>' + esc(a.zh.title) + '</span>' +
         '<span data-en>' + esc(a.en.title) + '</span>' +
+        '<span class="read-time" data-zh>阅读 ' + readMin + ' 分钟</span>' +
+        '<span class="read-time" data-en>' + readMin + ' min read</span>' +
       '</h3>' +
       '<time class="card-date">' + a.date + '</time>' +
       '<p class="card-desc">' +
@@ -307,6 +372,7 @@ function renderSectionList(section, tags) {
       '</h2>' +
       '<div class="section-divider"></div>' +
       tagsBar +
+      '<div class="color-bar"><span></span><span></span><span></span><span></span></div>' +
       '<div class="card-list">' + (cards || '<p class="empty-msg"><span data-zh>没有匹配的文章</span><span data-en>No matching articles</span></p>') + '</div>' +
     '</section>';
 }
@@ -324,6 +390,7 @@ function renderArticleDetail(section, id) {
 
   var bodyZh = a.zh.body || a.zh.desc;
   var bodyEn = a.en.body || a.en.desc;
+  var readMin = estimateReadTime(bodyZh + bodyEn);
 
   // Category tags in detail
   var detailTagHtml = '';
@@ -354,6 +421,9 @@ function renderArticleDetail(section, id) {
         '<span data-en>' + esc(a.en.title) + '</span>' +
       '</h1>' +
       '<time class="article-date">' + a.date + '</time>' +
+      '<span class="read-time" data-zh>阅读 ' + readMin + ' 分钟</span>' +
+      '<span class="read-time" data-en>' + readMin + ' min read</span>' +
+      '<div class="color-bar"><span></span><span></span><span></span><span></span></div>' +
       '<div class="article-divider"></div>' +
       '<div class="article-body">' +
         '<span data-zh>' + bodyZh.replace(/\n/g, '<br>') + '</span>' +
